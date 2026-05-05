@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone:  true,
-  imports: [ CommonModule],
+  imports: [ CommonModule , BaseChartDirective],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -20,6 +24,14 @@ export class Dashboard implements OnInit {
 
   loading = true;
   errorMessage = '';
+  chartLabels: string[] = [];
+  chartData: number[] = [];
+
+  pieLabels: string[] = [];
+  pieData: number[] = [];
+
+  lineLabels: string[] = [];
+  lineData: number[] = [];
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -40,22 +52,33 @@ export class Dashboard implements OnInit {
     });
 
     this.dashboardService.getRevenue().subscribe({
-      next: (data) => {
-        this.revenue = data;
-      }
-    });
+  next: (data) => {
+    console.log('DAILY REVENUE:', data);
 
-    this.dashboardService.getTopProducts().subscribe({
-      next: (data) => {
-        this.topProducts = data;
-      }
-    });
+    this.revenue = data;
+
+    this.lineLabels = data.map((item: any) => item.date);
+    this.lineData = data.map((item: any) => item.total);
+  }
+});
+
+this.dashboardService.getTopProducts().subscribe({
+  next: (data) => {
+    this.topProducts = data;
+
+    this.pieLabels = data.map((item: any) => item.productName);
+    this.pieData = data.map((item: any) => item.totalSold);
+  }
+});
 
     this.dashboardService.getMonthlyRevenue().subscribe({
-      next: (data) => {
-        this.monthlyRevenue = data;
-      }
-    });
+  next: (data) => {
+    this.monthlyRevenue = data;
+
+    this.chartLabels = data.map((item: any) => item.month);
+    this.chartData = data.map((item: any) => item.total);
+  }
+});
 
     this.dashboardService.getLowStock().subscribe({
       next: (data) => {

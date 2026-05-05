@@ -23,21 +23,70 @@
 
     <div class="card">
       <h3>Chiffre d'affaires</h3>
-      <p>{{ revenue?.totalRevenue || 0 }} DH</p>
+      <p>{{ revenue?.totalSales || 0 }} DH</p>
     </div>
   </div>
 
-  <h2>Produits les plus vendus</h2>
-  <table>
-    <tr>
-      <th>Produit</th>
-      <th>Quantité vendue</th>
-    </tr>
-    <tr *ngFor="let product of topProducts">
-      <td>{{ product.productName }}</td>
-      <td>{{ product.quantitySold }}</td>
-    </tr>
-  </table>
+  <h2>Chiffre d'affaires mensuel</h2>
+
+<div class="chart-card">
+  <canvas
+    baseChart
+    [data]="{
+      labels: chartLabels,
+      datasets: [
+        {
+          data: chartData,
+          label: 'Revenue (DH)'
+        }
+      ]
+    }"
+    [type]="'bar'">
+  </canvas>
+</div>
+
+
+
+  <div class="charts-row">
+
+  <div class="chart-card">
+    <h2>Produits les plus vendus</h2>
+
+    <canvas
+      baseChart
+      [data]="{
+        labels: pieLabels,
+        datasets: [
+          {
+            data: pieData,
+            label: 'Ventes'
+          }
+        ]
+      }"
+      [type]="'pie'">
+    </canvas>
+  </div>
+
+  <div class="chart-card">
+    <h2>Revenue par jour</h2>
+
+    <canvas
+      baseChart
+      [data]="{
+        labels: lineLabels,
+        datasets: [
+          {
+            data: lineData,
+            label: 'Revenue journalier (DH)',
+            tension: 0.3
+          }
+        ]
+      }"
+      [type]="'line'">
+    </canvas>
+  </div>
+
+</div>
 
   <h2>Produits en faible stock</h2>
   <table>
