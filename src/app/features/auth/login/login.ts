@@ -39,8 +39,13 @@ export class Login {
         this.authService.login(this.loginForm.value as any).subscribe({
       next: (response) => {
         this.authService.saveToken(response.token);
-        this.router.navigate(['/dashboard']);
-      },
+        this.authService.saveRole(response.role);
+        if (response.role === 'ADMIN') {
+    this.router.navigate(['/dashboard']);
+  } else {
+    this.router.navigate(['/orders']);
+  }
+},
       error: () => {
         this.errorMessage = 'Invalid email or password';
       }

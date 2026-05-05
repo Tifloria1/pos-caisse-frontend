@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../shared/models/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -11,10 +12,13 @@ import { CommonModule } from '@angular/common';
 })
 export class Layout {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+      public authService: AuthService
+
+  ) {}
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-  }
+  this.authService.logout();
+  this.router.navigate(['/login']);
+}
 }

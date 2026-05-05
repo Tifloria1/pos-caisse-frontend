@@ -28,11 +28,28 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-  }
+ logout(): void {
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+}
 
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  saveRole(role: string): void {
+  localStorage.setItem('role', role);
+}
+
+getRole(): string | null {
+  return localStorage.getItem('role');
+}
+
+isAdmin(): boolean {
+  return this.getRole() === 'ADMIN';
+}
+
+isCaissier(): boolean {
+  return this.getRole() === 'CAISSIER';
+}
 }

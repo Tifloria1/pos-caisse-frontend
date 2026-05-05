@@ -4,12 +4,13 @@
     <h2>POS Caisse</h2>
 
     <nav>
-      <a routerLink="/dashboard">Dashboard</a>
-      <a routerLink="/products">Produits</a>
-      <a routerLink="/orders">POS / Caisse</a>
-      <a routerLink="/categories">Catégories</a>
-      <a routerLink="/orders-history">Commandes</a>
-    </nav>
+  <a routerLink="/dashboard" *ngIf="authService.isAdmin()">Dashboard</a>
+  <a routerLink="/products" *ngIf="authService.isAdmin()">Produits</a>
+  <a routerLink="/categories" *ngIf="authService.isAdmin()">Catégories</a>
+  <a routerLink="/orders-history" *ngIf="authService.isAdmin()">Commandes</a>
+
+  <a routerLink="/orders">POS / Caisse</a>
+</nav>
 
     <button class="logout-btn" (click)="logout()">
       Logout
