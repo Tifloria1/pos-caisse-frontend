@@ -7,6 +7,7 @@ import { Orders } from './features/orders/orders';
 import { Layout } from './core/layout/layout';
 import { Categories } from './features/categories/categories';
 import { OrdersHistory } from './features/orders/orders-history';
+import { adminGuard } from './core/guards/admin.guard';
 export const routes: Routes = [
 
     {path: 'login', component: Login},
@@ -15,11 +16,11 @@ export const routes: Routes = [
         children: [
     
 
-    {path: 'dashboard', component: Dashboard , canActivate: [authGuard]},
-    {path: 'products', component: Products, canActivate: [authGuard]},
+    {path: 'dashboard', component: Dashboard , canActivate: [adminGuard]},
+    {path: 'products', component: Products, canActivate: [adminGuard]},
     {path: 'orders', component: Orders, canActivate: [authGuard]},
-    {path: 'categories', component: Categories, canActivate: [authGuard] },
-    {path: 'orders-history', component: OrdersHistory, canActivate: [authGuard] },
+    {path: 'categories', component: Categories, canActivate: [adminGuard] },
+    {path: 'orders-history', component: OrdersHistory, canActivate: [adminGuard] },
     {path: '', redirectTo: 'dashboard' , pathMatch: 'full'},
     
 
