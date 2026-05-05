@@ -1,0 +1,42 @@
+<div class="products-container">
+
+  <h1>Produits</h1>
+
+  <p *ngIf="loading">Chargement...</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <table *ngIf="!loading && products.length > 0">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Stock</th>
+        <th>Code-barres</th>
+        <th>Catégorie</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }} DH</td>
+        <td>{{ product.stockQuantity }}</td>
+        <td>{{ product.barcode }}</td>
+        <td>{{ product.categoryName || '-' }}</td>
+        <td>{{ product.active ? 'Actif' : 'Inactif' }}</td>
+        <td>
+          <button class="delete-btn" (click)="deleteProduct(product.id)">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && products.length === 0">
+    Aucun produit trouvé.
+  </p>
+
+</div>
