@@ -1,1 +1,48 @@
-<p>categories works!</p>
+<div class="categories-container">
+
+  <h1>Catégories</h1>
+
+  <p *ngIf="loading">Chargement...</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <div class="category-form">
+    <h2>Nouvelle catégorie</h2>
+
+    <input
+      type="text"
+      placeholder="Nom de la catégorie"
+      [(ngModel)]="newCategory.name"
+    >
+
+    <button class="save-btn" (click)="createCategory()">
+      Ajouter
+    </button>
+  </div>
+
+  <table *ngIf="!loading && categories.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.id }}</td>
+        <td>{{ category.name }}</td>
+        <td>
+          <button class="delete-btn" (click)="deleteCategory(category.id)">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && categories.length === 0">
+    Aucune catégorie trouvée.
+  </p>
+
+</div>
