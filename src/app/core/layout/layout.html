@@ -1,0 +1,21 @@
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <h2>POS Caisse</h2>
+
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/products">Produits</a>
+      <a routerLink="/orders">POS / Caisse</a>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">
+      Logout
+    </button>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
