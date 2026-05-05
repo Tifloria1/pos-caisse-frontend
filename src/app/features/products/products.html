@@ -41,6 +41,29 @@
 
   </div>
 
+  <div class="filters-box">
+
+  <input
+    type="text"
+    placeholder="Rechercher par nom ou code-barres..."
+    [(ngModel)]="searchText"
+  >
+
+  <select [(ngModel)]="selectedFilterCategoryId">
+    <option [ngValue]="null">Toutes les catégories</option>
+    <option *ngFor="let category of categories" [ngValue]="category.id">
+      {{ category.name }}
+    </option>
+  </select>
+
+  <select [(ngModel)]="selectedStatus">
+    <option value="ALL">Tous les statuts</option>
+    <option value="ACTIVE">Actif</option>
+    <option value="INACTIVE">Inactif</option>
+  </select>
+
+</div>
+
   <table *ngIf="!loading && products.length > 0">
     <thead>
       <tr>
@@ -55,7 +78,7 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let product of products">
+      <tr *ngFor="let product of getFilteredProducts()">
         <td>{{ product.name }}</td>
         <td>{{ product.price }} DH</td>
         <td>{{ product.stockQuantity }}</td>
@@ -84,8 +107,7 @@
     </tbody>
   </table>
 
-  <p *ngIf="!loading && products.length === 0">
-    Aucun produit trouvé.
+<p *ngIf="!loading && getFilteredProducts().length === 0">    Aucun produit trouvé.
   </p>
 
 </div>

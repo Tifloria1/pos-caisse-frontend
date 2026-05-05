@@ -104,3 +104,22 @@ th {
   background: #fee2e2;
   color: #7f1d1d;
 }
+
+
+.filters-box {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.filters-box input,
+.filters-box select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}

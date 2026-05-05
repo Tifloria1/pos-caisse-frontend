@@ -19,6 +19,10 @@ export class Products implements OnInit {
   products: Product[] = [];
   categories: Category[] = [];
 
+  searchText = '';
+  selectedFilterCategoryId: number | null = null;
+  selectedStatus = 'ALL';
+
   
 
   loading = true;
@@ -165,6 +169,27 @@ export class Products implements OnInit {
     error: () => {
       alert('Erreur lors du changement de statut');
     }
+  });
+}
+
+getFilteredProducts(): Product[] {
+  return this.products.filter(product => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      product.barcode?.toLowerCase().includes(this.searchText.toLowerCase());
+
+    const matchesCategory =
+      !this.selectedFilterCategoryId ||
+      this.categories.find(c => c.id === this.selectedFilterCategoryId)?.name === product.categoryName;
+
+    const isActive = product.active || product.isActive;
+
+    const matchesStatus =
+      this.selectedStatus === 'ALL' ||
+      (this.selectedStatus === 'ACTIVE' && isActive) ||
+      (this.selectedStatus === 'INACTIVE' && !isActive);
+
+    return matchesSearch && matchesCategory && matchesStatus;
   });
 }
 }

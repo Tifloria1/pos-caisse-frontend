@@ -1,0 +1,47 @@
+<div class="orders-history-container">
+
+  <h1>Historique des commandes</h1>
+
+  <p *ngIf="loading">Chargement...</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <table *ngIf="!loading && orders.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Statut</th>
+        <th>Total</th>
+        <th>Nb articles</th>
+        <th>Facture</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>#{{ order.id }}</td>
+        <td>{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <span class="status" [class.paid]="order.status === 'PAYEE'">
+            {{ order.status }}
+          </span>
+        </td>
+        <td>{{ order.totalAmount || 0 }} DH</td>
+        <td>{{ order.items?.length || 0 }}</td>
+        <td>
+          <button
+            class="invoice-btn"
+            [disabled]="order.status !== 'PAYEE'"
+            (click)="downloadInvoice(order.id)">
+            PDF
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && orders.length === 0">
+    Aucune commande trouvée.
+  </p>
+
+</div>
