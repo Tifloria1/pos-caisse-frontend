@@ -5,6 +5,42 @@
   <p *ngIf="loading">Chargement...</p>
   <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
+  <button class="add-btn" (click)="showForm = !showForm">
+    Ajouter produit
+  </button>
+
+  <div class="product-form" *ngIf="showForm">
+
+    <h2>{{ editingProductId ? 'Modifier produit' : 'Nouveau produit' }}</h2>
+
+    <input type="text" placeholder="Nom" [(ngModel)]="newProduct.name">
+    <input type="number" placeholder="Prix" [(ngModel)]="newProduct.price">
+    <input type="text" placeholder="Code-barres" [(ngModel)]="newProduct.barcode">
+    <input type="text" placeholder="Image URL" [(ngModel)]="newProduct.imageUrl">
+    <input type="number" placeholder="Stock" [(ngModel)]="newProduct.stockQuantity">
+
+    <select [(ngModel)]="selectedCategoryId">
+      <option [ngValue]="null">Choisir une catégorie</option>
+      <option *ngFor="let category of categories" [ngValue]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+
+    <label>
+      <input type="checkbox" [(ngModel)]="newProduct.active">
+      Actif
+    </label>
+
+    <button class="save-btn" (click)="saveProduct()">
+      {{ editingProductId ? 'Modifier' : 'Enregistrer' }}
+    </button>
+
+    <button class="cancel-btn" type="button" (click)="resetForm()">
+      Annuler
+    </button>
+
+  </div>
+
   <table *ngIf="!loading && products.length > 0">
     <thead>
       <tr>
@@ -25,8 +61,21 @@
         <td>{{ product.stockQuantity }}</td>
         <td>{{ product.barcode }}</td>
         <td>{{ product.categoryName || '-' }}</td>
-        <td>{{ product.active ? 'Actif' : 'Inactif' }}</td>
         <td>
+  <span 
+    class="status-badge"
+    [class.active]="product.active || product.isActive"
+    [class.inactive]="!(product.active || product.isActive)"
+    (click)="toggleStatus(product)"
+  >
+    {{ product.active || product.isActive ? 'Actif' : 'Inactif' }}
+  </span>
+</td>
+        <td>
+          <button class="edit-btn" (click)="editProduct(product)">
+            Modifier
+          </button>
+
           <button class="delete-btn" (click)="deleteProduct(product.id)">
             Supprimer
           </button>

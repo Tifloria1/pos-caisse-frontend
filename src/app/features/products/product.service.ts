@@ -19,4 +19,27 @@ export class ProductService {
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  createProduct(product: any, categoryId: number): Observable<Product> {
+  return this.http.post<Product>(
+    `${this.apiUrl}/category/${categoryId}`,
+    product
+  );
+}
+
+updateProduct(id: number, product: any, categoryId: number): Observable<Product> {
+  return this.http.put<Product>(
+    `${this.apiUrl}/${id}/category/${categoryId}`,
+    product
+  );
+}
+
+toggleStatus(id: number): Observable<Product> {
+  return this.http.patch<Product>(
+    `${this.apiUrl}/${id}/toggle-status`,
+    {}
+  );
+}
+
+
 }

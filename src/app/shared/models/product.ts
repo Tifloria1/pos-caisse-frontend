@@ -5,6 +5,7 @@ export interface Product {
   barcode: string;
   imageUrl: string;
   stockQuantity: number;
-  active: boolean;
+  active?: boolean;
+  isActive?: boolean;
   categoryName?: string;
 }
