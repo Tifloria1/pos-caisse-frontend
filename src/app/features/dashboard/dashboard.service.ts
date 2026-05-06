@@ -46,4 +46,9 @@ export class DashboardService {
 getTodayAverageBasket() {
   return this.http.get<number>(`${this.apiUrl}/today-average-basket`);
 }
+
+getProfit() {
+  return this.http.get<number>(`${this.apiUrl}/profit`);
+}
+
 }

@@ -35,11 +35,13 @@ export class Products implements OnInit {
   newProduct = {
     name: '',
     price: 0,
+    costPrice: 0,
     barcode: '',
     imageUrl: '',
     stockQuantity: 0,
     active: true
   };
+  
   
 
   constructor(
@@ -123,6 +125,7 @@ export class Products implements OnInit {
     this.newProduct = {
       name: product.name,
       price: product.price,
+      costPrice: product.costPrice || 0,
       barcode: product.barcode,
       imageUrl: product.imageUrl,
       stockQuantity: product.stockQuantity,
@@ -137,6 +140,7 @@ export class Products implements OnInit {
     this.newProduct = {
       name: '',
       price: 0,
+      costPrice: 0,
       barcode: '',
       imageUrl: '',
       stockQuantity: 0,

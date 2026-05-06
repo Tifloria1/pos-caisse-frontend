@@ -71,3 +71,12 @@ th {
 .chart-card h2 {
   margin-bottom: 16px;
 }
+
+.empty-state {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+  font-weight: 500;
+  background: #f8f9fa;
+  border-radius: 10px;
+}

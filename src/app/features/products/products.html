@@ -15,6 +15,7 @@
 
     <input type="text" placeholder="Nom" [(ngModel)]="newProduct.name">
     <input type="number" placeholder="Prix" [(ngModel)]="newProduct.price">
+    <input type="number" placeholder="Prix d'achat" [(ngModel)]="newProduct.costPrice">
     <input type="text" placeholder="Code-barres" [(ngModel)]="newProduct.barcode">
     <input type="text" placeholder="Image URL" [(ngModel)]="newProduct.imageUrl">
     <input type="number" placeholder="Stock" [(ngModel)]="newProduct.stockQuantity">
@@ -69,6 +70,7 @@
       <tr>
         <th>Nom</th>
         <th>Prix</th>
+        <th>Prix achat</th>
         <th>Stock</th>
         <th>Code-barres</th>
         <th>Catégorie</th>
@@ -81,6 +83,7 @@
       <tr *ngFor="let product of getFilteredProducts()">
         <td>{{ product.name }}</td>
         <td>{{ product.price }} DH</td>
+        <td>{{ product.costPrice }} DH</td>
         <td>
   <span [class.low-stock]="product.stockQuantity < 10">
     {{ product.stockQuantity }}

@@ -6,7 +6,8 @@ import { ProductService } from '../products/product.service';
 import { InvoiceService } from './invoice.service';
 import { OrderService } from './order.service';
 import { PaymentService } from './payment.service';
-
+import { from } from 'rxjs';
+import { concatMap, finalize } from 'rxjs/operators';
 
 interface CartItem {
   product: Product;
@@ -92,47 +93,47 @@ export class Orders implements OnInit {
     this.message = '';
   }
 
-  validateOrder(): void {
-    if (this.cart.length === 0) {
-      alert('Le panier est vide');
-      return;
-    }
+validateOrder(): void {
+  if (this.cart.length === 0) {
+    alert('Le panier est vide');
+    return;
+  }
 
-    this.loading = true;
+  this.loading = true;
 
-    this.orderService.createOrder().subscribe({
-      next: (order) => {
-        this.currentOrderId = order.id;
+  this.orderService.createOrder().subscribe({
+    next: (order) => {
+      this.currentOrderId = order.id;
 
-        let completed = 0;
-
-        this.cart.forEach(item => {
+      from(this.cart).pipe(
+        concatMap(item =>
           this.orderService.addProductToOrder(
             order.id,
             item.product.id,
             item.quantity
-          ).subscribe({
-            next: () => {
-              completed++;
-
-              if (completed === this.cart.length) {
-                this.loading = false;
-                this.message = 'Commande créée avec succès';
-              }
-            },
-            error: () => {
-              this.loading = false;
-              alert('Erreur lors de l’ajout du produit à la commande');
-            }
-          });
-        });
-      },
-      error: () => {
-        this.loading = false;
-        alert('Erreur lors de la création de la commande');
-      }
-    });
-  }
+          )
+        ),
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe({
+        next: () => {},
+        complete: () => {
+          this.message = 'Commande créée avec succès';
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Erreur lors de l’ajout des produits à la commande');
+        }
+      });
+    },
+    error: (err) => {
+      console.error(err);
+      this.loading = false;
+      alert('Erreur lors de la création de la commande');
+    }
+  });
+}
 
   payOrder(): void {
     if (!this.currentOrderId) {

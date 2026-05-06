@@ -27,6 +27,11 @@
 </div>
 
 <div class="card">
+  <h3>Bénéfice total</h3>
+  <p>{{ profit | number:'1.0-2' }} DH</p>
+</div>
+
+<div class="card">
   <h3>Panier moyen</h3>
   <p>{{ todayAverageBasket | number:'1.0-2' }} DH</p>
 </div>
@@ -46,6 +51,7 @@
 
 <div class="chart-card">
   <canvas
+    *ngIf="chartData.length > 0"
     baseChart
     [data]="{
       labels: chartLabels,
@@ -58,6 +64,10 @@
     }"
     [type]="'bar'">
   </canvas>
+
+  <p class="empty-state" *ngIf="chartData.length === 0">
+    Aucune vente mensuelle disponible.
+  </p>
 </div>
 
 
@@ -67,38 +77,49 @@
   <div class="chart-card">
     <h2>Produits les plus vendus</h2>
 
-    <canvas
-      baseChart
-      [data]="{
-        labels: pieLabels,
-        datasets: [
-          {
-            data: pieData,
-            label: 'Ventes'
-          }
-        ]
-      }"
-      [type]="'pie'">
-    </canvas>
-  </div>
+<canvas
+  *ngIf="pieData.length > 0"
+  baseChart
+  [data]="{
+    labels: pieLabels,
+    datasets: [
+      {
+        data: pieData,
+        label: 'Ventes'
+      }
+    ]
+  }"
+  [type]="'pie'">
+</canvas>
+
+<p class="empty-state" *ngIf="pieData.length === 0">
+  Aucun produit vendu pour le moment.
+</p>
+
+</div>
 
   <div class="chart-card">
     <h2>Revenue par jour</h2>
 
-    <canvas
-      baseChart
-      [data]="{
-        labels: lineLabels,
-        datasets: [
-          {
-            data: lineData,
-            label: 'Revenue journalier (DH)',
-            tension: 0.3
-          }
-        ]
-      }"
-      [type]="'line'">
-    </canvas>
+<canvas
+  *ngIf="lineData.length > 0"
+  baseChart
+  [data]="{
+    labels: lineLabels,
+    datasets: [
+      {
+        data: lineData,
+        label: 'Revenue journalier (DH)',
+        tension: 0.3
+      }
+    ]
+  }"
+  [type]="'line'">
+</canvas>
+
+<p class="empty-state" *ngIf="lineData.length === 0">
+  Aucune vente journalière disponible.
+</p>
   </div>
 
 </div>

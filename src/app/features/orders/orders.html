@@ -70,9 +70,9 @@
       Valider commande
     </button>
 
-    <button class="pay-btn" (click)="payOrder()" [disabled]="!currentOrderId">
-      Payer + Facture PDF
-    </button>
+   <button class="pay-btn" (click)="payOrder()" [disabled]="!currentOrderId || loading">
+  Payer + Facture PDF
+</button>
 
     <button class="clear-btn" (click)="clearCart()">
       Annuler
