@@ -17,6 +17,19 @@ export class Layout {
 
   ) {}
 
+
+  isDarkMode = false;
+
+toggleDarkMode(): void {
+  this.isDarkMode = !this.isDarkMode;
+
+  if (this.isDarkMode) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+
   logout(): void {
   this.authService.logout();
   this.router.navigate(['/login']);

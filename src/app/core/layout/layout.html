@@ -4,6 +4,9 @@
     <h2>POS Caisse</h2>
 
     <nav>
+      <button (click)="toggleDarkMode()" class="dark-btn">
+  🌙
+</button>
   <a routerLink="/dashboard" *ngIf="authService.isAdmin()">Dashboard</a>
   <a routerLink="/products" *ngIf="authService.isAdmin()">Produits</a>
   <a routerLink="/categories" *ngIf="authService.isAdmin()">Catégories</a>

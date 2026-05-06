@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+body.dark-mode {
+  background-color: #0f172a;
+}
+
+body.dark-mode .content {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .card,
+body.dark-mode .chart-card,
+body.dark-mode .product-card,
+body.dark-mode .cart-section,
+body.dark-mode .product-form,
+body.dark-mode .category-form,
+body.dark-mode table,
+body.dark-mode .modal-card {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
+body.dark-mode th,
+body.dark-mode td {
+  color: #f9fafb !important;
+}
+
+body.dark-mode .empty-state {
+  background-color: #111827 !important;
+  color: #d1d5db !important;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+  background-color: #111827;
+  color: #f9fafb;
+  border: 1px solid #374151;
+}
+
+body.dark-mode input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .sidebar {
+  background-color: #020617;
+}
