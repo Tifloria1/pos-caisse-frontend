@@ -81,7 +81,15 @@
       <tr *ngFor="let product of getFilteredProducts()">
         <td>{{ product.name }}</td>
         <td>{{ product.price }} DH</td>
-        <td>{{ product.stockQuantity }}</td>
+        <td>
+  <span [class.low-stock]="product.stockQuantity < 10">
+    {{ product.stockQuantity }}
+  </span>
+
+  <span class="stock-badge" *ngIf="product.stockQuantity < 10">
+    Stock faible
+  </span>
+</td>
         <td>{{ product.barcode }}</td>
         <td>{{ product.categoryName || '-' }}</td>
         <td>

@@ -13,6 +13,7 @@
         <th>Statut</th>
         <th>Total</th>
         <th>Nb articles</th>
+        <th>Détails</th>
         <th>Facture</th>
       </tr>
     </thead>
@@ -29,6 +30,11 @@
         <td>{{ order.totalAmount || 0 }} DH</td>
         <td>{{ order.items?.length || 0 }}</td>
         <td>
+  <button class="details-btn" (click)="openDetails(order)">
+    Voir
+  </button>
+</td>
+        <td>
           <button
             class="invoice-btn"
             [disabled]="order.status !== 'PAYEE'"
@@ -39,6 +45,51 @@
       </tr>
     </tbody>
   </table>
+
+  <div class="modal-backdrop" *ngIf="selectedOrder">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h2>Détails commande #{{ selectedOrder.id }}</h2>
+      <button class="close-btn" (click)="closeDetails()">X</button>
+    </div>
+
+    <p><strong>Date:</strong> {{ selectedOrder.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Statut:</strong><span class="status-badge">{{ selectedOrder.status }}</span></p>    <p><strong>Total:</strong> {{ selectedOrder.totalAmount | number:'1.0-2' }} DH</p>
+
+    <h3>Articles</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Quantité</th>
+          <th>Prix unitaire</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of selectedOrder.items">
+          <td>{{ item.product?.name || item.productName }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.unitPrice || item.price }} DH</td>
+          <td>{{ (item.unitPrice || item.price) * item.quantity }} DH</td>
+        </tr>
+
+          <tr *ngIf="selectedOrder.items.length === 0">
+    <td colspan="4">Aucun article</td>
+  </tr>
+  
+      </tbody>
+    </table>
+
+    <button class="invoice-btn" (click)="downloadInvoice(selectedOrder.id)">
+      Télécharger facture PDF
+    </button>
+
+  </div>
+</div>
 
   <p *ngIf="!loading && orders.length === 0">
     Aucune commande trouvée.

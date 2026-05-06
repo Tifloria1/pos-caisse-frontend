@@ -115,3 +115,16 @@ select {
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+.status-badge {
+  background: #d1e7dd;
+  color: #0f5132;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.low-stock-warning {
+  color: #dc3545;
+  font-weight: bold;
+  margin-top: 8px;
+}

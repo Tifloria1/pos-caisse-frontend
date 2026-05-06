@@ -123,3 +123,18 @@ th {
   border: 1px solid #ddd;
   border-radius: 6px;
 }
+
+.low-stock {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.stock-badge {
+  background: #fee2e2;
+  color: #7f1d1d;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}

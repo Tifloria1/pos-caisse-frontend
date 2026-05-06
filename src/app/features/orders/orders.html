@@ -22,6 +22,10 @@
           [disabled]="product.stockQuantity <= 0">
           Ajouter
         </button>
+
+        <p class="low-stock-warning" *ngIf="product.stockQuantity < 10">
+  Stock faible
+</p>
       </div>
     </div>
   </div>

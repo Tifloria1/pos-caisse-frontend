@@ -15,6 +15,8 @@ export class OrdersHistory implements OnInit {
   orders: any[] = [];
   loading = true;
   errorMessage = '';
+  selectedOrder: any = null;
+
 
   constructor(
     private orderService: OrderService,
@@ -40,6 +42,13 @@ export class OrdersHistory implements OnInit {
       }
     });
   }
+openDetails(order: any): void {
+  this.selectedOrder = order;
+}
+
+closeDetails(): void {
+  this.selectedOrder = null;
+}
 
   downloadInvoice(orderId: number): void {
     this.invoiceService.downloadInvoicePdf(orderId);
