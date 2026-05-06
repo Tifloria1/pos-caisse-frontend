@@ -5,7 +5,7 @@ import { Product } from '../../shared/models/product';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../categories/category.service';
 import { Category } from '../../shared/models/category';
-
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-products',
@@ -46,7 +46,8 @@ export class Products implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -106,13 +107,12 @@ export class Products implements OnInit {
         this.selectedCategoryId
       ).subscribe({
         next: () => {
-          alert('Produit ajouté avec succès');
-          this.resetForm();
+      this.toastService.success('Produit ajouté avec succès');          this.resetForm();
           this.loadProducts();
         },
         error: (err) => {
           console.error(err);
-          alert('Erreur lors de l’ajout du produit');
+         this.toastService.error('Erreur lors de l’ajout du produit');
         }
       });
     }

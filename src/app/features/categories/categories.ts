@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../shared/models/category';
 import { CategoryService } from './category.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-categories',
@@ -21,7 +22,7 @@ export class Categories implements OnInit {
     name: ''
   };
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -50,13 +51,13 @@ export class Categories implements OnInit {
 
     this.categoryService.createCategory(this.newCategory).subscribe({
       next: () => {
-        alert('Catégorie ajoutée avec succès');
+        this.toastService.success('Catégorie ajoutée avec succès');
         this.newCategory.name = '';
         this.loadCategories();
       },
       error: (err) => {
         console.error(err);
-        alert('Erreur lors de l’ajout de la catégorie');
+        this.toastService.error('Erreur lors de l’ajout de la catégorie');
       }
     });
   }
@@ -68,7 +69,7 @@ export class Categories implements OnInit {
           this.categories = this.categories.filter(category => category.id !== id);
         },
         error: () => {
-          alert('Erreur lors de la suppression. Cette catégorie contient peut-être des produits.');
+          this.toastService.error('Erreur lors de la suppression. Cette catégorie contient peut-être des produits.');
         }
       });
     }

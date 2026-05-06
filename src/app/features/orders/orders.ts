@@ -8,6 +8,7 @@ import { OrderService } from './order.service';
 import { PaymentService } from './payment.service';
 import { from } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
+import { ToastService } from '../../core/services/toast.service';
 
 interface CartItem {
   product: Product;
@@ -37,7 +38,8 @@ export class Orders implements OnInit {
     private productService: ProductService,
     private orderService: OrderService,
     private paymentService: PaymentService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +97,7 @@ export class Orders implements OnInit {
 
 validateOrder(): void {
   if (this.cart.length === 0) {
-    alert('Le panier est vide');
+    this.toastService.error('Le panier est vide');
     return;
   }
 
@@ -119,37 +121,39 @@ validateOrder(): void {
       ).subscribe({
         next: () => {},
         complete: () => {
+          this.toastService.success('Commande créée avec succès');
           this.message = 'Commande créée avec succès';
         },
         error: (err) => {
           console.error(err);
-          alert('Erreur lors de l’ajout des produits à la commande');
+          this.toastService.error('Erreur lors de l’ajout des produits à la commande');
         }
       });
     },
     error: (err) => {
       console.error(err);
       this.loading = false;
-      alert('Erreur lors de la création de la commande');
+      this.toastService.error('Erreur lors de la création de la commande');
     }
   });
 }
 
   payOrder(): void {
     if (!this.currentOrderId) {
-      alert('Veuillez d’abord valider la commande');
+      this.toastService.error('Veuillez d’abord valider la commande');
       return;
     }
 
     this.paymentService.payOrder(this.currentOrderId, this.paymentMethod).subscribe({
       next: () => {
+        this.toastService.success('Paiement effectué avec succès');
         this.message = 'Paiement effectué avec succès';
         this.invoiceService.downloadInvoicePdf(this.currentOrderId!);
         this.clearCart();
         this.loadProducts();
       },
       error: () => {
-        alert('Erreur lors du paiement');
+        this.toastService.error('Erreur lors du paiement');
       }
     });
   }

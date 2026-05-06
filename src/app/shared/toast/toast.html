@@ -1,0 +1,11 @@
+<div class="toast-container">
+  <div
+    class="toast"
+    *ngFor="let toast of toastService.toasts"
+    [class.success]="toast.type === 'success'"
+    [class.error]="toast.type === 'error'"
+    [class.info]="toast.type === 'info'"
+  >
+    {{ toast.message }}
+  </div>
+</div>

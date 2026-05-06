@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from './order.service';
 import { InvoiceService } from './invoice.service';
 import { FormsModule } from '@angular/forms';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-orders-history',
@@ -26,7 +27,8 @@ selectedStatus = 'ALL';
 
   constructor(
     private orderService: OrderService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private toastService : ToastService
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +81,7 @@ exportOrdersCsv(): void {
   const ordersToExport = this.getFilteredOrders();
 
   if (ordersToExport.length === 0) {
-    alert('Aucune commande à exporter');
+    this.toastService.info('Aucune commande à exporter');
     return;
   }
 
@@ -110,5 +112,6 @@ exportOrdersCsv(): void {
   link.click();
 
   window.URL.revokeObjectURL(url);
+  this.toastService.success('Export CSV effectué avec succès');
 }
 }
