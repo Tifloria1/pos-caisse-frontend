@@ -38,4 +38,12 @@ export class DashboardService {
   getTopUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/top-users`);
   }
+
+  getTodayOrders() {
+  return this.http.get<number>(`${this.apiUrl}/today-orders`);
+}
+
+getTodayAverageBasket() {
+  return this.http.get<number>(`${this.apiUrl}/today-average-basket`);
+}
 }

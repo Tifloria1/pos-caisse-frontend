@@ -21,6 +21,16 @@
   <p>{{ todayRevenue }} DH</p>
 </div>
 
+<div class="card">
+  <h3>Commandes aujourd’hui</h3>
+  <p>{{ todayOrders }}</p>
+</div>
+
+<div class="card">
+  <h3>Panier moyen</h3>
+  <p>{{ todayAverageBasket | number:'1.0-2' }} DH</p>
+</div>
+
     <div class="card">
       <h3>Total Utilisateurs</h3>
       <p>{{ stats.totalUsers }}</p>

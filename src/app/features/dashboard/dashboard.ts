@@ -35,6 +35,9 @@ export class Dashboard implements OnInit {
 
   todayRevenue = 0;
 
+  todayOrders = 0;
+todayAverageBasket = 0;
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
@@ -73,6 +76,18 @@ this.dashboardService.getTodayRevenue().subscribe({
   },
   error: (err) => {
     console.error('TODAY REVENUE ERROR:', err);
+  }
+});
+
+this.dashboardService.getTodayOrders().subscribe({
+  next: (data) => {
+    this.todayOrders = data;
+  }
+});
+
+this.dashboardService.getTodayAverageBasket().subscribe({
+  next: (data) => {
+    this.todayAverageBasket = data;
   }
 });
 
