@@ -114,3 +114,17 @@ th {
   border: 1px solid #ddd;
   border-radius: 6px;
 }
+
+.export-btn {
+  background: #198754;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.export-btn:hover {
+  background: #157347;
+}

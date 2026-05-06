@@ -23,6 +23,10 @@
 
 </div>
 
+<button class="export-btn" (click)="exportOrdersCsv()">
+  Exporter CSV
+</button>
+
   <table *ngIf="!loading && orders.length > 0">
     <thead>
       <tr>

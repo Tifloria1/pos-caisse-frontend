@@ -73,4 +73,42 @@ closeDetails(): void {
     return matchesSearch && matchesStatus;
   });
 }
+
+
+exportOrdersCsv(): void {
+  const ordersToExport = this.getFilteredOrders();
+
+  if (ordersToExport.length === 0) {
+    alert('Aucune commande à exporter');
+    return;
+  }
+
+  const headers = ['ID', 'Date', 'Statut', 'Total', 'Nb articles'];
+
+  const rows = ordersToExport.map(order => [
+    order.id,
+    order.createdAt || order.orderDate || '',
+    order.status,
+    order.totalAmount || 0,
+    order.items?.length || 0
+  ]);
+
+  const csvContent = [
+    headers.join(';'),
+    ...rows.map(row => row.join(';'))
+  ].join('\n');
+
+  const blob = new Blob([csvContent], {
+    type: 'text/csv;charset=utf-8;'
+  });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'orders-history.csv';
+  link.click();
+
+  window.URL.revokeObjectURL(url);
+}
 }
