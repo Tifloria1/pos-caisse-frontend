@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from './order.service';
 import { InvoiceService } from './invoice.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-orders-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule , FormsModule],
   templateUrl: './orders-history.html',
   styleUrls: ['./orders-history.css']
 })
@@ -16,6 +17,11 @@ export class OrdersHistory implements OnInit {
   loading = true;
   errorMessage = '';
   selectedOrder: any = null;
+
+  searchText = '';
+selectedStatus = 'ALL';
+
+
 
 
   constructor(
@@ -53,4 +59,18 @@ closeDetails(): void {
   downloadInvoice(orderId: number): void {
     this.invoiceService.downloadInvoicePdf(orderId);
   }
+
+
+  getFilteredOrders(): any[] {
+  return this.orders.filter(order => {
+    const matchesSearch =
+      order.id.toString().includes(this.searchText);
+
+    const matchesStatus =
+      this.selectedStatus === 'ALL' ||
+      order.status === this.selectedStatus;
+
+    return matchesSearch && matchesStatus;
+  });
+}
 }

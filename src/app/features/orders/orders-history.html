@@ -5,6 +5,24 @@
   <p *ngIf="loading">Chargement...</p>
   <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
+
+  <div class="filters-box">
+
+  <input
+    type="text"
+    placeholder="Rechercher par ID commande..."
+    [(ngModel)]="searchText"
+  >
+
+  <select [(ngModel)]="selectedStatus">
+    <option value="ALL">Tous les statuts</option>
+    <option value="PAYEE">Payée</option>
+    <option value="EN_ATTENTE">En attente</option>
+    <option value="ANNULEE">Annulée</option>
+  </select>
+
+</div>
+
   <table *ngIf="!loading && orders.length > 0">
     <thead>
       <tr>
@@ -19,7 +37,7 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let order of orders">
+      <tr *ngFor="let order of getFilteredOrders()">
         <td>#{{ order.id }}</td>
         <td>{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>
@@ -91,8 +109,8 @@
   </div>
 </div>
 
-  <p *ngIf="!loading && orders.length === 0">
-    Aucune commande trouvée.
-  </p>
+ <p *ngIf="!loading && getFilteredOrders().length === 0">
+  Aucune commande trouvée.
+</p>
 
 </div>
