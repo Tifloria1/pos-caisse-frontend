@@ -128,3 +128,24 @@ th {
 .export-btn:hover {
   background: #157347;
 }
+
+
+@media (max-width: 768px) {
+  .orders-history-container {
+    padding: 16px;
+  }
+
+  .filters-box {
+    grid-template-columns: 1fr;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .modal-card {
+    width: 95%;
+  }
+}

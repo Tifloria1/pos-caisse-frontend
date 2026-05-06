@@ -138,3 +138,24 @@ th {
   font-size: 12px;
   font-weight: 600;
 }
+
+
+@media (max-width: 768px) {
+  .products-container {
+    padding: 16px;
+  }
+
+  .filters-box {
+    grid-template-columns: 1fr;
+  }
+
+  .product-form {
+    max-width: 100%;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

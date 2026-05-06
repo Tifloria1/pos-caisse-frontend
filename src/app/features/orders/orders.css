@@ -128,3 +128,37 @@ select {
   font-weight: bold;
   margin-top: 8px;
 }
+
+
+@media (max-width: 900px) {
+  .pos-container {
+    grid-template-columns: 1fr;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cart-section {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .pos-container {
+    padding: 16px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+}
