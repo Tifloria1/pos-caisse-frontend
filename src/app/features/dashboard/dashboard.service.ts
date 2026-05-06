@@ -23,6 +23,10 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}/revenue`);
   }
 
+  getTodayRevenue() {
+  return this.http.get<number>(`${this.apiUrl}/today-revenue`);
+}
+
   getMonthlyRevenue(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/monthly-revenue`);
   }

@@ -33,10 +33,15 @@ export class Dashboard implements OnInit {
   lineLabels: string[] = [];
   lineData: number[] = [];
 
+  todayRevenue = 0;
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.loadDashboard();
+    this.loadDashboard(
+      
+  
+    );
   }
 
   loadDashboard(): void {
@@ -59,6 +64,15 @@ export class Dashboard implements OnInit {
 
     this.lineLabels = data.map((item: any) => item.date);
     this.lineData = data.map((item: any) => item.total);
+  }
+});
+
+this.dashboardService.getTodayRevenue().subscribe({
+  next: (data) => {
+    this.todayRevenue = data;
+  },
+  error: (err) => {
+    console.error('TODAY REVENUE ERROR:', err);
   }
 });
 
