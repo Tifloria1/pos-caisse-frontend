@@ -30,6 +30,8 @@ export class Orders implements OnInit {
   loading = false;
   message = '';
 
+  searchText = '';
+
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
@@ -150,4 +152,11 @@ export class Orders implements OnInit {
       }
     });
   }
+
+  getFilteredProducts(): Product[] {
+  return this.products.filter(product =>
+    product.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+    product.barcode?.toLowerCase().includes(this.searchText.toLowerCase())
+  );
+}
 }

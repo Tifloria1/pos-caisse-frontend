@@ -106,3 +106,12 @@ select {
   color: green;
   font-weight: bold;
 }
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  margin: 0 0 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
