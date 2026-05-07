@@ -1,0 +1,95 @@
+<div class="roles-container">
+
+  <h1>Gestion des rôles</h1>
+
+  <div class="role-form">
+    <h2>Nouveau rôle</h2>
+
+    <input
+      type="text"
+      placeholder="Nom du rôle ex: RECEPTION"
+      [(ngModel)]="newRoleName"
+    >
+
+    <h3>Permissions</h3>
+
+    <div class="permissions-grid">
+      <label *ngFor="let permission of permissions">
+        <input
+          type="checkbox"
+          [checked]="selectedPermissions.includes(permission.name)"
+          (change)="togglePermission(permission.name, selectedPermissions)"
+        >
+        {{ permission.name }}
+      </label>
+    </div>
+
+    <button class="save-btn" (click)="createRole()">
+      Créer rôle
+    </button>
+  </div>
+
+  <div class="roles-list">
+    <h2>Liste des rôles</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Rôle</th>
+          <th>Permissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let role of roles">
+          <td>{{ role.name }}</td>
+          <td>
+            <span class="permission-badge" *ngFor="let permission of role.permissions">
+              {{ permission.name }}
+            </span>
+          </td>
+          <td>
+           <button
+  class="edit-btn"
+  *ngIf="role.name !== 'ADMIN'"
+  (click)="editRole(role)">
+  Modifier
+</button>
+
+<span *ngIf="role.name === 'ADMIN'" class="system-role">
+  Rôle système
+</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="selectedRole">
+    <div class="modal-card">
+
+      <div class="modal-header">
+        <h2>Modifier permissions : {{ selectedRole.name }}</h2>
+        <button class="close-btn" (click)="cancelEdit()">X</button>
+      </div>
+
+      <div class="permissions-grid">
+        <label *ngFor="let permission of permissions">
+          <input
+            type="checkbox"
+            [checked]="editingPermissions.includes(permission.name)"
+            (change)="togglePermission(permission.name, editingPermissions)"
+          >
+          {{ permission.name }}
+        </label>
+      </div>
+
+      <button class="save-btn" (click)="updatePermissions()">
+        Enregistrer
+      </button>
+
+    </div>
+  </div>
+
+</div>

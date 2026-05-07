@@ -130,6 +130,15 @@
       <th>Produit</th>
       <th>Stock</th>
     </tr>
+
+    <tr *ngIf="lowStock.length === 0">
+    <td colspan="2">
+      <div class="empty-state">
+        Aucun produit en stock faible.
+      </div>
+    </td>
+  </tr>
+  
     <tr *ngFor="let product of lowStock">
       <td>{{ product.name }}</td>
       <td>{{ product.stockQuantity }}</td>

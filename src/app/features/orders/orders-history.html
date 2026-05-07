@@ -23,7 +23,10 @@
 
 </div>
 
-<button class="export-btn" (click)="exportOrdersCsv()">
+<button
+  class="export-btn"
+  *ngIf="authService.hasPermission('ORDER_VIEW')"
+  (click)="exportOrdersCsv()">
   Exporter CSV
 </button>
 
@@ -52,17 +55,21 @@
         <td>{{ order.totalAmount || 0 }} DH</td>
         <td>{{ order.items?.length || 0 }}</td>
         <td>
-  <button class="details-btn" (click)="openDetails(order)">
-    Voir
-  </button>
+  <button
+  class="details-btn"
+  *ngIf="authService.hasPermission('ORDER_VIEW')"
+  (click)="openDetails(order)">
+  Voir
+</button>
 </td>
         <td>
           <button
-            class="invoice-btn"
-            [disabled]="order.status !== 'PAYEE'"
-            (click)="downloadInvoice(order.id)">
-            PDF
-          </button>
+  class="invoice-btn"
+  *ngIf="authService.hasPermission('INVOICE_DOWNLOAD')"
+  [disabled]="order.status !== 'PAYEE'"
+  (click)="downloadInvoice(order.id)">
+  PDF
+</button>
         </td>
       </tr>
     </tbody>
@@ -106,9 +113,12 @@
       </tbody>
     </table>
 
-    <button class="invoice-btn" (click)="downloadInvoice(selectedOrder.id)">
-      Télécharger facture PDF
-    </button>
+    <button
+  class="invoice-btn"
+  *ngIf="authService.hasPermission('INVOICE_DOWNLOAD')"
+  (click)="downloadInvoice(selectedOrder.id)">
+  Télécharger facture PDF
+</button>
 
   </div>
 </div>

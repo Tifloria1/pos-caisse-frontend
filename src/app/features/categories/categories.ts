@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Category } from '../../shared/models/category';
 import { CategoryService } from './category.service';
 import { ToastService } from '../../core/services/toast.service';
-
+import { AuthService } from '../../shared/models/auth.service';
 @Component({
   selector: 'app-categories',
   standalone: true,
@@ -22,7 +22,7 @@ export class Categories implements OnInit {
     name: ''
   };
 
-  constructor(private categoryService: CategoryService, private toastService: ToastService) {}
+  constructor(private categoryService: CategoryService, private toastService: ToastService , public authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadCategories();

@@ -66,17 +66,29 @@
       <option value="CARTE">Carte</option>
     </select>
 
-    <button class="validate-btn" (click)="validateOrder()" [disabled]="loading">
-      Valider commande
-    </button>
+    <button
+  class="validate-btn"
+  *ngIf="authService.hasPermission('POS_ACCESS')"
+  (click)="validateOrder()"
+  [disabled]="loading">
+  Valider commande
+</button>
 
-   <button class="pay-btn" (click)="payOrder()" [disabled]="!currentOrderId || loading">
+
+   <button
+  class="pay-btn"
+  *ngIf="authService.hasPermission('ORDER_PAY')"
+  (click)="payOrder()"
+  [disabled]="!currentOrderId || loading">
   Payer + Facture PDF
 </button>
 
-    <button class="clear-btn" (click)="clearCart()">
-      Annuler
-    </button>
+    <button
+  class="clear-btn"
+  *ngIf="authService.hasPermission('POS_ACCESS')"
+  (click)="clearCart()">
+  Annuler
+</button>
 
     <p class="message" *ngIf="message">{{ message }}</p>
   </div>

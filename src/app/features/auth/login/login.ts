@@ -31,26 +31,35 @@ export class Login {
   }
 
    login(): void {
-    if (this.loginForm.invalid) {
-      this.errorMessage = 'Please enter a valid email and password';
-      return;
-    }
+  if (this.loginForm.invalid) {
+    this.errorMessage = 'Please enter a valid email and password';
+    return;
+  }
 
-        this.authService.login(this.loginForm.value as any).subscribe({
-      next: (response) => {
-        this.authService.saveToken(response.token);
-        this.authService.saveRole(response.role);
-        if (response.role === 'ADMIN') {
-    this.router.navigate(['/dashboard']);
-  } else {
-    this.router.navigate(['/orders']);
-  }
-},
-      error: () => {
-        this.errorMessage = 'Invalid email or password';
+  this.authService.login(this.loginForm.value).subscribe({
+    next: (response) => {
+      this.authService.saveToken(response.token);
+      this.authService.saveRole(response.role);
+      this.authService.savePermissions(response.permissions || []);
+      this.authService.saveUserId(response.id);
+
+      if (response.permissions?.includes('DASHBOARD_VIEW')) {
+        this.router.navigate(['/dashboard']);
+      } else if (response.permissions?.includes('POS_ACCESS')) {
+        this.router.navigate(['/orders']);
+
+      } else if (response.permissions?.includes('ORDER_VIEW')) {
+
+        this.router.navigate(['/commands']);
+      } else {
+        this.router.navigate(['/login']);
       }
-    });
-  }
+    },
+    error: () => {
+      this.errorMessage = 'Invalid email or password';
+    }
+  });
+}
 
 
 }

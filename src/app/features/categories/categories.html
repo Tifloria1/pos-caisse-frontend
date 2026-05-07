@@ -5,8 +5,7 @@
   <p *ngIf="loading">Chargement...</p>
   <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
-  <div class="category-form">
-    <h2>Nouvelle catégorie</h2>
+<div class="category-form" *ngIf="authService.hasPermission('CATEGORY_CREATE')">    <h2>Nouvelle catégorie</h2>
 
     <input
       type="text"
@@ -33,9 +32,12 @@
         <td>{{ category.id }}</td>
         <td>{{ category.name }}</td>
         <td>
-          <button class="delete-btn" (click)="deleteCategory(category.id)">
-            Supprimer
-          </button>
+          <button
+  class="delete-btn"
+  *ngIf="authService.hasPermission('CATEGORY_DELETE')"
+  (click)="deleteCategory(category.id)">
+  Supprimer
+</button>
         </td>
       </tr>
     </tbody>

@@ -1,0 +1,97 @@
+<div class="users-container">
+
+  <h1>Gestion des utilisateurs</h1>
+
+  <div class="user-form">
+
+    <h2>Nouvel utilisateur</h2>
+
+    <input
+      type="text"
+      placeholder="Nom"
+      [(ngModel)]="newUser.name"
+    >
+
+    <input
+      type="email"
+      placeholder="Email"
+      [(ngModel)]="newUser.email"
+    >
+
+    <input
+      type="password"
+      placeholder="Mot de passe"
+      [(ngModel)]="newUser.password"
+    >
+
+    <select [(ngModel)]="newUser.role">
+      <option *ngFor="let role of roles" [value]="role.name">
+        {{ role.name }}
+      </option>
+    </select>
+
+    <button class="save-btn" (click)="createUser()">
+      Créer utilisateur
+    </button>
+
+  </div>
+
+  <div class="users-list">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let user of users">
+
+          <td>{{ user.name }}</td>
+
+          <td>{{ user.email }}</td>
+
+          <td>
+
+            <select
+              [value]="user.role.name"
+              (change)="changeRole(user, $event)"
+            >
+              <option *ngFor="let role of roles" [value]="role.name">
+                {{ role.name }}
+              </option>
+            </select>
+
+          </td>
+
+          <td>
+
+          <button
+  class="delete-btn"
+  *ngIf="!isCurrentUser(user.id)"
+  (click)="deleteUser(user.id)"
+>
+  Supprimer
+</button>
+
+<span *ngIf="isCurrentUser(user.id)" class="current-user">
+  Compte actuel
+</span>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

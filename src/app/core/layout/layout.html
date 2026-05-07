@@ -7,12 +7,32 @@
       <button (click)="toggleDarkMode()" class="dark-btn">
   🌙
 </button>
-  <a routerLink="/dashboard" *ngIf="authService.isAdmin()">Dashboard</a>
-  <a routerLink="/products" *ngIf="authService.isAdmin()">Produits</a>
-  <a routerLink="/categories" *ngIf="authService.isAdmin()">Catégories</a>
-  <a routerLink="/orders-history" *ngIf="authService.isAdmin()">Commandes</a>
+<li *ngIf="authService.hasPermission('DASHBOARD_VIEW')"><a routerLink="/dashboard">Dashboard</a></li>
+<li *ngIf="authService.hasPermission('PRODUCT_VIEW')">
+  <a routerLink="/products">Produits</a>
+</li>
 
+<li *ngIf="authService.hasPermission('CATEGORY_VIEW')">
+  <a routerLink="/categories">Catégories</a>
+</li>
+
+<li *ngIf="authService.hasPermission('ORDER_VIEW')">
+  <a routerLink="/orders-history">Commandes</a>
+</li>
+
+<li *ngIf="authService.hasPermission('POS_ACCESS')">
   <a routerLink="/orders">POS / Caisse</a>
+</li>
+
+<a routerLink="/roles" *ngIf="authService.hasPermission('ROLE_MANAGE')">
+  Rôles
+</a>
+
+<a
+  routerLink="/users"
+  *ngIf="authService.hasPermission('USER_MANAGE')">
+  Utilisateurs
+</a>
 </nav>
 
     <button class="logout-btn" (click)="logout()">

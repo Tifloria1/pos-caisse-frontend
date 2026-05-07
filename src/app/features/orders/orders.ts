@@ -9,7 +9,7 @@ import { PaymentService } from './payment.service';
 import { from } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { ToastService } from '../../core/services/toast.service';
-
+import { AuthService } from '../../shared/models/auth.service';
 interface CartItem {
   product: Product;
   quantity: number;
@@ -39,7 +39,8 @@ export class Orders implements OnInit {
     private orderService: OrderService,
     private paymentService: PaymentService,
     private invoiceService: InvoiceService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

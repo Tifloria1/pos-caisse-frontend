@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../categories/category.service';
 import { Category } from '../../shared/models/category';
 import { ToastService } from '../../core/services/toast.service';
-
+import { AuthService } from '../../shared/models/auth.service';
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -47,7 +47,8 @@ export class Products implements OnInit {
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

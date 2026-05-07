@@ -4,7 +4,7 @@ import { OrderService } from './order.service';
 import { InvoiceService } from './invoice.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
-
+import { AuthService } from '../../shared/models/auth.service';
 @Component({
   selector: 'app-orders-history',
   standalone: true,
@@ -28,7 +28,8 @@ selectedStatus = 'ALL';
   constructor(
     private orderService: OrderService,
     private invoiceService: InvoiceService,
-    private toastService : ToastService
+    private toastService : ToastService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
