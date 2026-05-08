@@ -61,6 +61,7 @@
 
             <select
               [value]="user.role.name"
+              [disabled]="isCurrentUser(user.id)"
               (change)="changeRole(user, $event)"
             >
               <option *ngFor="let role of roles" [value]="role.name">

@@ -57,13 +57,20 @@ export class Roles implements OnInit {
   }
 
   createRole(): void {
-    if (!this.newRoleName.trim()) {
-      this.toastService.error('Nom du rôle obligatoire');
-      return;
-    }
+    const roleName = this.newRoleName.trim();
+
+    if (roleName.length < 3) {
+  this.toastService.error('Le nom du rôle doit contenir au moins 3 caractères');
+  return;
+}
+
+if (!/^[A-Za-z_]+$/.test(roleName)) {
+  this.toastService.error('Le rôle doit contenir uniquement des lettres ou _');
+  return;
+}
 
     this.roleService.createRole({
-      name: this.newRoleName,
+      name: roleName.toUpperCase(),
       permissions: this.selectedPermissions
     }).subscribe({
       next: () => {
