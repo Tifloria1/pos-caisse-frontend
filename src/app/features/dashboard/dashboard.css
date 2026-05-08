@@ -111,4 +111,24 @@ th {
     overflow-x: auto;
     white-space: nowrap;
   }
+
+  .chart-wrapper {
+  height: 320px;
+  max-height: 320px;
+  position: relative;
+}
+
+.chart-wrapper canvas {
+  max-height: 320px !important;
+}
+
+.pie-wrapper {
+  height: 260px;
+  max-height: 260px;
+  position: relative;
+}
+
+.pie-wrapper canvas {
+  max-height: 260px !important;
+}
 }
