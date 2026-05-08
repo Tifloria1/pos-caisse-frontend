@@ -13,9 +13,17 @@
 
     <div class="products-grid">
       <div class="product-card" *ngFor="let product of getFilteredProducts()">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.price }} DH</p>
-        <small>Stock: {{ product.stockQuantity }}</small>
+        <div class="product-card" *ngFor="let product of getFilteredProducts()">
+
+  <img
+  style="width: 100%; height: 130px; object-fit: cover; border-radius: 12px; display: block;"
+  [src]="product.imageUrl || 'assets/product-placeholder.png'"
+  alt="Image produit"
+/>
+
+  <h3>{{ product.name }}</h3>
+  <p>{{ product.price }} DH</p>
+  <small>Stock: {{ product.stockQuantity }}</small>
 
         <button 
           (click)="addToCart(product)"

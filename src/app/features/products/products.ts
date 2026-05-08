@@ -32,6 +32,8 @@ export class Products implements OnInit {
   selectedCategoryId: number | null = null;
   editingProductId: number | null = null;
 
+  selectedImageFile: File | null = null;
+
   newProduct = {
     name: '',
     price: 0,
@@ -81,43 +83,79 @@ export class Products implements OnInit {
   }
 
   saveProduct(): void {
-    if (!this.selectedCategoryId) {
-      alert('Veuillez choisir une catégorie');
-      return;
-    }
+  if (!this.selectedCategoryId) {
+    this.toastService.error('Veuillez choisir une catégorie');
+    return;
+  }
 
-    if (this.editingProductId) {
-      this.productService.updateProduct(
-        this.editingProductId,
-        this.newProduct,
-        this.selectedCategoryId
-      ).subscribe({
-        next: () => {
-          alert('Produit modifié avec succès');
+  const productToSave = {
+    ...this.newProduct,
+    isActive: this.newProduct.active
+  };
+
+  if (this.editingProductId) {
+    this.productService.updateProduct(
+      this.editingProductId,
+      productToSave,
+      this.selectedCategoryId
+    ).subscribe({
+      next: (savedProduct) => {
+        if (this.selectedImageFile && savedProduct.id) {
+          this.productService.uploadProductImage(savedProduct.id, this.selectedImageFile).subscribe({
+            next: () => {
+              this.toastService.success('Produit modifié avec image');
+              this.resetForm();
+              this.loadProducts();
+            },
+            error: () => {
+              this.toastService.error('Produit modifié, mais erreur image');
+              this.resetForm();
+              this.loadProducts();
+            }
+          });
+        } else {
+          this.toastService.success('Produit modifié avec succès');
           this.resetForm();
           this.loadProducts();
-        },
-        error: (err) => {
-          console.error(err);
-          alert('Erreur lors de la modification');
         }
-      });
-    } else {
-      this.productService.createProduct(
-        this.newProduct,
-        this.selectedCategoryId
-      ).subscribe({
-        next: () => {
-      this.toastService.success('Produit ajouté avec succès');          this.resetForm();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Erreur lors de la modification');
+      }
+    });
+  } else {
+    this.productService.createProduct(
+      productToSave,
+      this.selectedCategoryId
+    ).subscribe({
+      next: (savedProduct) => {
+        if (this.selectedImageFile && savedProduct.id) {
+          this.productService.uploadProductImage(savedProduct.id, this.selectedImageFile).subscribe({
+            next: () => {
+              this.toastService.success('Produit ajouté avec image');
+              this.resetForm();
+              this.loadProducts();
+            },
+            error: () => {
+              this.toastService.error('Produit ajouté, mais erreur image');
+              this.resetForm();
+              this.loadProducts();
+            }
+          });
+        } else {
+          this.toastService.success('Produit ajouté avec succès');
+          this.resetForm();
           this.loadProducts();
-        },
-        error: (err) => {
-          console.error(err);
-         this.toastService.error('Erreur lors de l’ajout du produit');
         }
-      });
-    }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Erreur lors de l’ajout du produit');
+      }
+    });
   }
+}
 
   editProduct(product: Product): void {
     this.showForm = true;
@@ -150,6 +188,7 @@ export class Products implements OnInit {
 
     this.selectedCategoryId = null;
     this.editingProductId = null;
+    this.selectedImageFile = null;
     this.showForm = false;
   }
 
@@ -160,7 +199,7 @@ export class Products implements OnInit {
           this.products = this.products.filter(product => product.id !== id);
         },
         error: () => {
-          alert('Erreur lors de la suppression');
+          this.toastService.error('Erreur lors de la suppression');
         }
       });
     }
@@ -187,7 +226,7 @@ getFilteredProducts(): Product[] {
       !this.selectedFilterCategoryId ||
       this.categories.find(c => c.id === this.selectedFilterCategoryId)?.name === product.categoryName;
 
-    const isActive = product.active || product.isActive;
+    const isActive = product.active ?? product.isActive ?? false;
 
     const matchesStatus =
       this.selectedStatus === 'ALL' ||
@@ -196,5 +235,13 @@ getFilteredProducts(): Product[] {
 
     return matchesSearch && matchesCategory && matchesStatus;
   });
+}
+
+onImageSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+
+  if (input.files && input.files.length > 0) {
+    this.selectedImageFile = input.files[0];
+  }
 }
 }

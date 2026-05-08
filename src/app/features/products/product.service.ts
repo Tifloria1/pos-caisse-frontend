@@ -41,5 +41,15 @@ toggleStatus(id: number): Observable<Product> {
   );
 }
 
+uploadProductImage(productId: number, file: File): Observable<Product> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return this.http.post<Product>(
+    `${this.apiUrl}/${productId}/image`,
+    formData
+  );
+}
+
 
 }

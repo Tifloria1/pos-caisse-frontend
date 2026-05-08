@@ -20,7 +20,7 @@
     <input type="number" placeholder="Prix" [(ngModel)]="newProduct.price">
     <input type="number" placeholder="Prix d'achat" [(ngModel)]="newProduct.costPrice">
     <input type="text" placeholder="Code-barres" [(ngModel)]="newProduct.barcode">
-    <input type="text" placeholder="Image URL" [(ngModel)]="newProduct.imageUrl">
+    <input type="file" accept="image/*" (change)="onImageSelected($event)">
     <input type="number" placeholder="Stock" [(ngModel)]="newProduct.stockQuantity">
 
     <select [(ngModel)]="selectedCategoryId">
@@ -71,6 +71,7 @@
   <table *ngIf="!loading && products.length > 0">
     <thead>
       <tr>
+        <th>Image</th>
         <th>Nom</th>
         <th>Prix</th>
         <th>Prix achat</th>
@@ -84,7 +85,14 @@
 
     <tbody>
       <tr *ngFor="let product of getFilteredProducts()">
-        <td>{{ product.name }}</td>
+        <td>
+  <img
+  style="width: 70px; height: 70px; object-fit: cover; border-radius: 10px; display: block;"
+  [src]="product.imageUrl || 'assets/product-placeholder.png'"
+  alt="Image produit"
+/>
+</td>
+<td>{{ product.name }}</td>
         <td>{{ product.price }} DH</td>
         <td>{{ product.costPrice }} DH</td>
         <td>
@@ -101,12 +109,12 @@
         <td>
   <span
   class="status-badge"
-  [class.active]="product.active || product.isActive"
-  [class.inactive]="!(product.active || product.isActive)"
+  [class.active]="product.active ?? product.isActive ?? false"
+  [class.inactive]="!(product.active ?? product.isActive ?? false)"
   [class.disabled]="!authService.hasPermission('PRODUCT_UPDATE')"
   (click)="authService.hasPermission('PRODUCT_UPDATE') && toggleStatus(product)">
-    {{ product.active || product.isActive ? 'Actif' : 'Inactif' }}
-  </span>
+  {{ (product.active ?? product.isActive ?? false) ? 'Actif' : 'Inactif' }}
+</span>
 </td>
         <td>
          <button
