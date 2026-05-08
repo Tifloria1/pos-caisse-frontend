@@ -33,6 +33,11 @@
   *ngIf="authService.hasPermission('USER_MANAGE')">
   Utilisateurs
 </a>
+
+<a routerLink="/settings" *ngIf="authService.hasPermission('SETTINGS_MANAGE')">
+  Paramètres
+</a>
+
 </nav>
 
     <button class="logout-btn" (click)="logout()">

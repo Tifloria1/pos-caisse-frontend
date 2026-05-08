@@ -1,0 +1,43 @@
+<div class="settings-container">
+
+  <h1>Paramètres du magasin</h1>
+
+  <p *ngIf="loading">Chargement...</p>
+
+  <div class="settings-card" *ngIf="!loading">
+
+    <label>Nom du magasin</label>
+    <input
+      type="text"
+      placeholder="Ex: POS Caisse"
+      [(ngModel)]="settings.storeName"
+    >
+
+    <label>Téléphone</label>
+    <input
+      type="text"
+      placeholder="Ex: 0600000000"
+      [(ngModel)]="settings.phone"
+    >
+
+    <label>Adresse</label>
+    <input
+      type="text"
+      placeholder="Ex: Casablanca, Maroc"
+      [(ngModel)]="settings.address"
+    >
+
+    <label>Email</label>
+    <input
+      type="email"
+      placeholder="Ex: contact@store.com"
+      [(ngModel)]="settings.email"
+    >
+
+    <button class="save-btn" (click)="saveSettings()">
+      Enregistrer
+    </button>
+
+  </div>
+
+</div>

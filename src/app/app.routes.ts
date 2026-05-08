@@ -11,6 +11,8 @@ import { adminGuard } from './core/guards/admin.guard';
 import { permissionGuard } from './core/guards/permission.guard';
 import { Roles } from './features/roles/roles';
 import { Users } from './features/users/users';
+import { Settings } from './features/settings/settings';
+
 export const routes: Routes = [
 
     {path: 'login', component: Login},
@@ -62,6 +64,13 @@ export const routes: Routes = [
   component: Users,
   canActivate: [permissionGuard],
   data: { permission: 'USER_MANAGE' }
+},
+
+{
+  path: 'settings',
+  component: Settings,
+  canActivate: [permissionGuard],
+  data: { permission: 'SETTINGS_MANAGE' }
 },
 
     {path: '', redirectTo: 'login' , pathMatch: 'full'},
