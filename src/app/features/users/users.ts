@@ -83,21 +83,17 @@ export class Users implements OnInit {
     });
   }
 
-  changeRole(user: User, event: Event): void {
-
-    const target = event.target as HTMLSelectElement;
-
-    this.userService.updateUserRole(user.id, target.value).subscribe({
-      next: () => {
-        this.toastService.success('Rôle mis à jour');
-        this.loadUsers();
-      },
-      error: () => {
-        this.toastService.error('Erreur lors de la mise à jour');
-      }
-    });
-  }
-
+changeRole(user: User, roleName: string): void {
+  this.userService.updateUserRole(user.id, roleName).subscribe({
+    next: () => {
+      this.toastService.success('Rôle mis à jour');
+      this.loadUsers();
+    },
+    error: () => {
+      this.toastService.error('Erreur lors de la mise à jour');
+    }
+  });
+}
   deleteUser(userId: number): void {
 
     if (!confirm('Supprimer cet utilisateur ?')) {

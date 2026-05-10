@@ -86,11 +86,16 @@
     <tbody>
       <tr *ngFor="let product of getFilteredProducts()">
         <td>
-  <img
-  style="width: 70px; height: 70px; object-fit: cover; border-radius: 10px; display: block;"
-  [src]="product.imageUrl || 'assets/product-placeholder.png'"
+ <img
+  *ngIf="product.imageUrl"
+  class="product-thumb"
+  [src]="product.imageUrl"
   alt="Image produit"
 />
+
+<div *ngIf="!product.imageUrl" class="thumb-placeholder">
+  No image
+</div>
 </td>
 <td>{{ product.name }}</td>
         <td>{{ product.price }} DH</td>

@@ -10,6 +10,15 @@ export class InvoiceService {
 
   constructor(private http: HttpClient) {}
 
+
+
+  createInvoice(orderId: number) {
+  return this.http.post(
+    `http://localhost:8083/api/invoices/order/${orderId}`,
+    {}
+  );
+}
+
   downloadInvoicePdf(orderId: number): void {
     this.http.get(`${this.apiUrl}/order/${orderId}/pdf`, {
       responseType: 'blob'

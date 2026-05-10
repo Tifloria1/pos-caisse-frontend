@@ -140,24 +140,54 @@ validateOrder(): void {
 }
 
   payOrder(): void {
-    if (!this.currentOrderId) {
-      this.toastService.error('Veuillez d’abord valider la commande');
-      return;
+
+  if (!this.currentOrderId) {
+    this.toastService.error('Veuillez d’abord valider la commande');
+    return;
+  }
+
+  this.loading = true;
+
+  this.paymentService.payOrder(
+    this.currentOrderId,
+    this.paymentMethod
+  ).subscribe({
+
+    next: () => {
+
+      this.invoiceService.createInvoice(this.currentOrderId!)
+        .subscribe({
+
+          next: () => {
+
+            this.toastService.success('Paiement effectué avec succès');
+
+            this.invoiceService.downloadInvoicePdf(this.currentOrderId!);
+
+            this.clearCart();
+
+            this.loadProducts();
+
+            this.loading = false;
+          },
+
+          error: () => {
+            this.loading = false;
+            this.toastService.error('Erreur création facture');
+          }
+
+        });
+
+    },
+
+    error: () => {
+      this.loading = false;
+      this.toastService.error('Erreur lors du paiement');
     }
 
-    this.paymentService.payOrder(this.currentOrderId, this.paymentMethod).subscribe({
-      next: () => {
-        this.toastService.success('Paiement effectué avec succès');
-        this.message = 'Paiement effectué avec succès';
-        this.invoiceService.downloadInvoicePdf(this.currentOrderId!);
-        this.clearCart();
-        this.loadProducts();
-      },
-      error: () => {
-        this.toastService.error('Erreur lors du paiement');
-      }
-    });
-  }
+  });
+
+}
 
   getFilteredProducts(): Product[] {
   return this.products.filter(product =>

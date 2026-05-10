@@ -60,14 +60,14 @@
           <td>
 
             <select
-              [value]="user.role.name"
-              [disabled]="isCurrentUser(user.id)"
-              (change)="changeRole(user, $event)"
-            >
-              <option *ngFor="let role of roles" [value]="role.name">
-                {{ role.name }}
-              </option>
-            </select>
+  [ngModel]="user.role?.name"
+  [disabled]="isCurrentUser(user.id)"
+  (ngModelChange)="changeRole(user, $event)"
+>
+  <option *ngFor="let role of roles" [ngValue]="role.name">
+    {{ role.name }}
+  </option>
+</select>
 
           </td>
 

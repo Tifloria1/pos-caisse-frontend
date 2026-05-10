@@ -2,38 +2,42 @@
 
   <div class="products-section">
     <h1>POS - Caisse</h1>
-    
 
-  <input
-  class="search-input"
-  type="text"
-  placeholder="Rechercher un produit..."
-  [(ngModel)]="searchText"
-/>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Rechercher un produit..."
+      [(ngModel)]="searchText"
+    />
 
     <div class="products-grid">
       <div class="product-card" *ngFor="let product of getFilteredProducts()">
-        <div class="product-card" *ngFor="let product of getFilteredProducts()">
 
-  <img
-  style="width: 100%; height: 130px; object-fit: cover; border-radius: 12px; display: block;"
-  [src]="product.imageUrl || 'assets/product-placeholder.png'"
-  alt="Image produit"
-/>
+        <img
+          *ngIf="product.imageUrl"
+          class="product-image"
+          [src]="product.imageUrl"
+          alt="Image produit"
+        />
 
-  <h3>{{ product.name }}</h3>
-  <p>{{ product.price }} DH</p>
-  <small>Stock: {{ product.stockQuantity }}</small>
+        <div class="image-placeholder" *ngIf="!product.imageUrl">
+          No image
+        </div>
 
-        <button 
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.price }} DH</p>
+        <small>Stock: {{ product.stockQuantity }}</small>
+
+        <button
           (click)="addToCart(product)"
           [disabled]="product.stockQuantity <= 0">
           Ajouter
         </button>
 
         <p class="low-stock-warning" *ngIf="product.stockQuantity < 10">
-  Stock faible
-</p>
+          Stock faible
+        </p>
+
       </div>
     </div>
   </div>
@@ -55,9 +59,7 @@
         <button (click)="increaseQuantity(item)">+</button>
       </div>
 
-      <div>
-        {{ item.product.price * item.quantity }} DH
-      </div>
+      <div>{{ item.product.price * item.quantity }} DH</div>
 
       <button class="remove-btn" (click)="removeFromCart(item.product.id)">
         X
@@ -75,32 +77,29 @@
     </select>
 
     <button
-  class="validate-btn"
-  *ngIf="authService.hasPermission('POS_ACCESS')"
-  (click)="validateOrder()"
-  [disabled]="loading">
-  Valider commande
-</button>
-
-
-   <button
-  class="pay-btn"
-  *ngIf="authService.hasPermission('ORDER_PAY')"
-  (click)="payOrder()"
-  [disabled]="!currentOrderId || loading">
-  Payer + Facture PDF
-</button>
+      class="validate-btn"
+      *ngIf="authService.hasPermission('POS_ACCESS')"
+      (click)="validateOrder()"
+      [disabled]="loading">
+      Valider commande
+    </button>
 
     <button
-  class="clear-btn"
-  *ngIf="authService.hasPermission('POS_ACCESS')"
-  (click)="clearCart()">
-  Annuler
-</button>
+      class="pay-btn"
+      *ngIf="authService.hasPermission('ORDER_PAY')"
+      (click)="payOrder()"
+      [disabled]="!currentOrderId || loading">
+      Payer + Facture PDF
+    </button>
+
+    <button
+      class="clear-btn"
+      *ngIf="authService.hasPermission('POS_ACCESS')"
+      (click)="clearCart()">
+      Annuler
+    </button>
 
     <p class="message" *ngIf="message">{{ message }}</p>
   </div>
-
-  
 
 </div>
