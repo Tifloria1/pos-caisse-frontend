@@ -38,12 +38,12 @@
 
     <div class="card">
       <h3>Total Utilisateurs</h3>
-      <p>{{ stats.totalUsers }}</p>
+      <p>-</p>
     </div>
 
     <div class="card">
       <h3>Chiffre d'affaires</h3>
-      <p>{{ revenue?.totalSales || 0 }} DH</p>
+      <p>{{ stats.totalSales | number:'1.0-2' }} DH</p>
     </div>
   </div>
 
