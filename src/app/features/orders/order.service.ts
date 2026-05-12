@@ -11,9 +11,16 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  createOrder(): Observable<any> {
-    return this.http.post(this.apiUrl, {});
+  createOrder(customerId?: number | null): Observable<any> {
+
+  let url = this.apiUrl;
+
+  if (customerId) {
+    url += `?customerId=${customerId}`;
   }
+
+  return this.http.post(url, {});
+}
 
   addProductToOrder(orderId: number, productId: number, quantity: number): Observable<any> {
     return this.http.post(

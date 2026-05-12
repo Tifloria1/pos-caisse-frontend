@@ -70,6 +70,24 @@
 
     <h3>Total: {{ getTotal() }} DH</h3>
 
+    <label>Client</label>
+
+<select [(ngModel)]="selectedCustomerId">
+
+  <option [ngValue]="null">
+    Client anonyme
+  </option>
+
+  <option
+    *ngFor="let customer of customers"
+    [ngValue]="customer.id">
+
+    {{ customer.fullName }} - {{ customer.phone }}
+
+  </option>
+
+</select>
+
     <label>Méthode de paiement</label>
     <select [(ngModel)]="paymentMethod">
       <option value="ESPECES">Espèces</option>

@@ -10,6 +10,7 @@ import { from } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { ToastService } from '../../core/services/toast.service';
 import { AuthService } from '../../shared/models/auth.service';
+import { CustomersService } from '../customers/customers.service';
 interface CartItem {
   product: Product;
   quantity: number;
@@ -34,17 +35,22 @@ export class Orders implements OnInit {
 
   searchText = '';
 
+  customers: any[] = [];
+selectedCustomerId: number | null = null;
+
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
     private paymentService: PaymentService,
     private invoiceService: InvoiceService,
     private toastService: ToastService,
-    public authService: AuthService
+    public authService: AuthService,
+    private customersService: CustomersService,
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
+    this.loadCustomers();
   }
 
   loadProducts(): void {
@@ -53,6 +59,12 @@ export class Orders implements OnInit {
       error: () => this.message = 'Erreur lors du chargement des produits'
     });
   }
+
+  loadCustomers(): void {
+  this.customersService.getCustomers().subscribe({
+    next: (data) => this.customers = data
+  });
+}
 
   addToCart(product: Product): void {
     const existingItem = this.cart.find(item => item.product.id === product.id);
@@ -104,8 +116,7 @@ validateOrder(): void {
 
   this.loading = true;
 
-  this.orderService.createOrder().subscribe({
-    next: (order) => {
+this.orderService.createOrder(this.selectedCustomerId).subscribe({    next: (order) => {
       this.currentOrderId = order.id;
 
       from(this.cart).pipe(

@@ -40,6 +40,7 @@
         <th>Nb articles</th>
         <th>Détails</th>
         <th>Facture</th>
+        <th>Client</th>
       </tr>
     </thead>
 
@@ -71,6 +72,7 @@
   PDF
 </button>
         </td>
+        <td>{{ order.customerName || 'Client anonyme' }}</td>
       </tr>
     </tbody>
   </table>
@@ -84,7 +86,9 @@
     </div>
 
     <p><strong>Date:</strong> {{ selectedOrder.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
-    <p><strong>Statut:</strong><span class="status-badge">{{ selectedOrder.status }}</span></p>    <p><strong>Total:</strong> {{ selectedOrder.totalAmount | number:'1.0-2' }} DH</p>
+    <p><strong>Client:</strong> {{ selectedOrder.customerName || 'Client anonyme' }}</p>
+    <p><strong>Statut:</strong><span class="status-badge">{{ selectedOrder.status }}</span></p>
+    <p><strong>Total:</strong> {{ selectedOrder.totalAmount | number:'1.0-2' }} DH</p>
 
     <h3>Articles</h3>
 
