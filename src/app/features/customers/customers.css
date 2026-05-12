@@ -1,0 +1,38 @@
+.customers-container {
+  padding: 24px;
+}
+
+.customer-form {
+  display: grid;
+  gap: 12px;
+  max-width: 500px;
+  margin-bottom: 24px;
+}
+
+.customer-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.customer-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #198754;
+  color: white;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}

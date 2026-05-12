@@ -4,39 +4,50 @@
     <h2>POS Caisse</h2>
 
     <nav>
-      <button (click)="toggleDarkMode()" class="dark-btn">
-  🌙
-</button>
-<li *ngIf="authService.hasPermission('DASHBOARD_VIEW')"><a routerLink="/dashboard">Dashboard</a></li>
-<li *ngIf="authService.hasPermission('PRODUCT_VIEW')">
-  <a routerLink="/products">Produits</a>
-</li>
 
-<li *ngIf="authService.hasPermission('CATEGORY_VIEW')">
-  <a routerLink="/categories">Catégories</a>
-</li>
+  <button (click)="toggleDarkMode()" class="dark-btn">
+    🌙
+  </button>
 
-<li *ngIf="authService.hasPermission('ORDER_VIEW')">
-  <a routerLink="/orders-history">Commandes</a>
-</li>
+  <ul>
 
-<li *ngIf="authService.hasPermission('POS_ACCESS')">
-  <a routerLink="/orders">POS / Caisse</a>
-</li>
+    <li *ngIf="authService.hasPermission('DASHBOARD_VIEW')">
+      <a routerLink="/dashboard">Dashboard</a>
+    </li>
 
-<a routerLink="/roles" *ngIf="authService.hasPermission('ROLE_MANAGE')">
-  Rôles
-</a>
+    <li *ngIf="authService.hasPermission('PRODUCT_VIEW')">
+      <a routerLink="/products">Produits</a>
+    </li>
 
-<a
-  routerLink="/users"
-  *ngIf="authService.hasPermission('USER_MANAGE')">
-  Utilisateurs
-</a>
+    <li *ngIf="authService.hasPermission('CATEGORY_VIEW')">
+      <a routerLink="/categories">Catégories</a>
+    </li>
 
-<a routerLink="/settings" *ngIf="authService.hasPermission('SETTINGS_MANAGE')">
-  Paramètres
-</a>
+    <li *ngIf="authService.hasPermission('ORDER_VIEW')">
+      <a routerLink="/orders-history">Commandes</a>
+    </li>
+
+    <li *ngIf="authService.hasPermission('CUSTOMER_VIEW')">
+      <a routerLink="/customers">Clients</a>
+    </li>
+
+    <li *ngIf="authService.hasPermission('POS_ACCESS')">
+      <a routerLink="/orders">POS / Caisse</a>
+    </li>
+
+    <li *ngIf="authService.hasPermission('ROLE_MANAGE')">
+      <a routerLink="/roles">Rôles</a>
+    </li>
+
+    <li *ngIf="authService.hasPermission('USER_MANAGE')">
+      <a routerLink="/users">Utilisateurs</a>
+    </li>
+
+    <li *ngIf="authService.hasPermission('SETTINGS_MANAGE')">
+      <a routerLink="/settings">Paramètres</a>
+    </li>
+
+  </ul>
 
 </nav>
 

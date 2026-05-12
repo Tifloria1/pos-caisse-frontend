@@ -1,0 +1,70 @@
+<div class="customers-container">
+
+  <h1>Clients</h1>
+
+  <div class="customer-form">
+
+    <input
+      type="text"
+      placeholder="Nom complet"
+      [(ngModel)]="newCustomer.fullName"
+    >
+
+    <input
+      type="text"
+      placeholder="Téléphone"
+      [(ngModel)]="newCustomer.phone"
+    >
+
+    <input
+      type="email"
+      placeholder="Email"
+      [(ngModel)]="newCustomer.email"
+    >
+
+    <input
+      type="text"
+      placeholder="Adresse"
+      [(ngModel)]="newCustomer.address"
+    >
+
+    <button (click)="createCustomer()">
+      Ajouter client
+    </button>
+
+  </div>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Adresse</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let customer of customers">
+
+        <td>{{ customer.fullName }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.address }}</td>
+
+        <td>
+          <button (click)="deleteCustomer(customer.id)">
+            Supprimer
+          </button>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

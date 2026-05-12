@@ -12,6 +12,7 @@ import { permissionGuard } from './core/guards/permission.guard';
 import { Roles } from './features/roles/roles';
 import { Users } from './features/users/users';
 import { Settings } from './features/settings/settings';
+import { Customers } from './features/customers/customers';
 
 export const routes: Routes = [
 
@@ -71,6 +72,12 @@ export const routes: Routes = [
   component: Settings,
   canActivate: [permissionGuard],
   data: { permission: 'SETTINGS_MANAGE' }
+},
+
+{
+  path: 'customers',
+  component: Customers,
+  canActivate: [authGuard]
 },
 
     {path: '', redirectTo: 'login' , pathMatch: 'full'},

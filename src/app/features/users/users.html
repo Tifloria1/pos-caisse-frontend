@@ -60,7 +60,7 @@
           <td>
 
             <select
-  [ngModel]="user.role?.name"
+  [ngModel]="user.role.name"
   [disabled]="isCurrentUser(user.id)"
   (ngModelChange)="changeRole(user, $event)"
 >
