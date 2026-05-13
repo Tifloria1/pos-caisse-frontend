@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { OrderService } from '../orders/order.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';import { OrderService } from '../orders/order.service';
 import { ToastService } from '../../core/services/toast.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-kitchen-screen',
@@ -10,7 +10,9 @@ import { ToastService } from '../../core/services/toast.service';
   templateUrl: './kitchen-screen.html',
   styleUrls: ['./kitchen-screen.css']
 })
-export class KitchenScreen implements OnInit {
+export class KitchenScreen implements OnInit, OnDestroy  {
+
+    private refreshSubscription?: Subscription;
 
   @Input() destination: 'CUISINE' | 'BAR' | 'PATISSERIE' = 'CUISINE';
   @Input() title = 'Kitchen Screen';
@@ -23,27 +25,34 @@ export class KitchenScreen implements OnInit {
     private toastService: ToastService
   ) {}
 
-  ngOnInit(): void {
-    this.loadTickets();
-  }
+ngOnInit(): void {
+  this.loadTickets();
 
-  loadTickets(): void {
+  this.refreshSubscription = interval(5000).subscribe(() => {
+    this.loadTickets(false);
+  });
+}
+loadTickets(showLoading = true): void {
+  if (showLoading) {
     this.loading = true;
-
-    this.orderService.getKitchenTicketsByDestination(this.destination)
-      .subscribe({
-        next: (data) => {
-          this.tickets = data.filter(ticket => ticket.status !== 'DELIVERED');
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastService.error('Erreur lors du chargement des tickets');
-          this.loading = false;
-        }
-      });
   }
 
+  this.orderService.getKitchenTicketsByDestination(this.destination)
+    .subscribe({
+      next: (data) => {
+        this.tickets = data.filter(ticket => ticket.status !== 'DELIVERED');
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Erreur lors du chargement des tickets');
+        this.loading = false;
+      }
+    });
+}
+ngOnDestroy(): void {
+  this.refreshSubscription?.unsubscribe();
+}
   updateStatus(ticketId: number, status: string): void {
     this.orderService.updateKitchenTicketStatus(ticketId, status)
       .subscribe({
