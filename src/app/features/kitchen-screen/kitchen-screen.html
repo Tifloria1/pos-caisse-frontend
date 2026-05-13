@@ -1,0 +1,60 @@
+<div class="kitchen-screen">
+
+  <div class="page-header">
+    <h1>{{ title }}</h1>
+    <button type="button" (click)="loadTickets()">Refresh</button>
+  </div>
+
+  <p *ngIf="loading">Chargement...</p>
+
+  <div class="tickets-grid" *ngIf="!loading && tickets.length > 0">
+
+    <div class="ticket-card" *ngFor="let ticket of tickets">
+
+      <div class="ticket-header">
+        <h2>Order #{{ ticket.orderId }}</h2>
+        <span class="status">{{ ticket.status }}</span>
+      </div>
+
+      <h3>{{ ticket.destination }}</h3>
+
+      <ul>
+        <li *ngFor="let item of ticket.items">
+          <strong>x{{ item.quantity }}</strong> {{ item.productName }}
+        </li>
+      </ul>
+
+      <div class="ticket-actions">
+
+        <button
+          type="button"
+          *ngIf="ticket.status === 'PENDING'"
+          (click)="updateStatus(ticket.id, 'IN_PROGRESS')">
+          Start
+        </button>
+
+        <button
+          type="button"
+          *ngIf="ticket.status === 'IN_PROGRESS'"
+          (click)="updateStatus(ticket.id, 'READY')">
+          Ready
+        </button>
+
+        <button
+          type="button"
+          *ngIf="ticket.status === 'READY'"
+          (click)="updateStatus(ticket.id, 'DELIVERED')">
+          Delivered
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <p *ngIf="!loading && tickets.length === 0">
+    Aucun ticket actif.
+  </p>
+
+</div>

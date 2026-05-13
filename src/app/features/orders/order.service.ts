@@ -70,4 +70,10 @@ getKitchenTicketsByOrder(orderId: number) {
   );
 }
 
+getKitchenTicketsByDestination(destination: string) {
+  return this.http.get<any[]>(
+    `http://localhost:8083/api/kitchen-tickets/destination/${destination}`
+  );
+}
+
 }

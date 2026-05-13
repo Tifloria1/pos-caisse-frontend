@@ -14,6 +14,10 @@ import { Users } from './features/users/users';
 import { Settings } from './features/settings/settings';
 import { Customers } from './features/customers/customers';
 
+import { CuisineScreen } from './features/kitchen-screen/cuisine-screen/cuisine-screen';
+import { BarScreen } from './features/kitchen-screen/bar-screen/bar-screen';
+import { PatisserieScreen } from './features/kitchen-screen/patisserie-screen/patisserie-screen';
+
 export const routes: Routes = [
 
     {path: 'login', component: Login},
@@ -78,6 +82,25 @@ export const routes: Routes = [
   path: 'customers',
   component: Customers,
   canActivate: [authGuard]
+},
+
+{
+  path: 'kitchen',
+  component: CuisineScreen,
+  canActivate: [permissionGuard],
+  data: { permission: 'ORDER_VIEW' }
+},
+{
+  path: 'bar',
+  component: BarScreen,
+  canActivate: [permissionGuard],
+  data: { permission: 'ORDER_VIEW' }
+},
+{
+  path: 'patisserie',
+  component: PatisserieScreen,
+  canActivate: [permissionGuard],
+  data: { permission: 'ORDER_VIEW' }
 },
 
     {path: '', redirectTo: 'login' , pathMatch: 'full'},
