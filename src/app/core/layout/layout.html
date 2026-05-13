@@ -27,6 +27,18 @@
       <a routerLink="/orders-history">Commandes</a>
     </li>
 
+    <li *ngIf="authService.hasPermission('ORDER_VIEW')">
+  <a routerLink="/kitchen">Cuisine</a>
+</li>
+
+<li *ngIf="authService.hasPermission('ORDER_VIEW')">
+  <a routerLink="/bar">Bar</a>
+</li>
+
+<li *ngIf="authService.hasPermission('ORDER_VIEW')">
+  <a routerLink="/patisserie">Pâtisserie</a>
+</li>
+
     <li *ngIf="authService.hasPermission('CUSTOMER_VIEW')">
       <a routerLink="/customers">Clients</a>
     </li>
