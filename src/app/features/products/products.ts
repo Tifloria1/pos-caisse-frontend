@@ -41,7 +41,8 @@ export class Products implements OnInit {
     barcode: '',
     imageUrl: '',
     stockQuantity: 0,
-    active: true
+    active: true,
+    destination: 'NONE' 
   };
   
   
@@ -168,7 +169,8 @@ export class Products implements OnInit {
       barcode: product.barcode,
       imageUrl: product.imageUrl,
       stockQuantity: product.stockQuantity,
-      active: product.active ?? product.isActive ?? true
+      active: product.active ?? product.isActive ?? true,
+      destination: product.destination || 'NONE'
     };
 
     const category = this.categories.find(c => c.name === product.categoryName);
@@ -183,7 +185,8 @@ export class Products implements OnInit {
       barcode: '',
       imageUrl: '',
       stockQuantity: 0,
-      active: true
+      active: true,
+      destination: 'NONE'
     };
 
     this.selectedCategoryId = null;

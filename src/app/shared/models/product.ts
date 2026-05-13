@@ -9,4 +9,6 @@ export interface Product {
   active?: boolean;
   isActive?: boolean;
   categoryName?: string;
+  destination?: ProductDestination;
 }
+export type ProductDestination = 'NONE' | 'CUISINE' | 'BAR' | 'PATISSERIE';
