@@ -19,6 +19,8 @@ export class OrdersHistory implements OnInit {
   errorMessage = '';
   selectedOrder: any = null;
 
+  preparationTickets: any[] = [];
+
   searchText = '';
 selectedStatus = 'ALL';
 
@@ -53,11 +55,25 @@ selectedStatus = 'ALL';
   }
 openDetails(order: any): void {
   this.selectedOrder = order;
+
+  this.orderService.getPreparationTicketsPreview(order.id)
+    .subscribe({
+      next: (data) => {
+        this.preparationTickets = data;
+      },
+      error: (err) => {
+        console.error(err);
+        this.preparationTickets = [];
+      }
+    });
 }
+
 
 closeDetails(): void {
   this.selectedOrder = null;
+  this.preparationTickets = [];
 }
+
 
   downloadInvoice(orderId: number): void {
     this.invoiceService.downloadInvoicePdf(orderId);

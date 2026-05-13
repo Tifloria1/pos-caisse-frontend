@@ -49,4 +49,11 @@ export class OrderService {
 getOrderById(id: number): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/${id}`);
 }
+
+
+getPreparationTicketsPreview(orderId: number): Observable<any[]> {
+  return this.http.get<any[]>(
+    `${this.apiUrl}/${orderId}/preparation-tickets-preview`
+  );
+}
 }

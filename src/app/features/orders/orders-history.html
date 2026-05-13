@@ -84,6 +84,7 @@
       <h2>Détails commande #{{ selectedOrder.id }}</h2>
       <button class="close-btn" (click)="closeDetails()">X</button>
     </div>
+    
 
     <p><strong>Date:</strong> {{ selectedOrder.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
     <p><strong>Client:</strong> {{ selectedOrder.customerName || 'Client anonyme' }}</p>
@@ -116,6 +117,27 @@
   
       </tbody>
     </table>
+
+
+    <div class="preparation-preview" *ngIf="preparationTickets.length > 0">
+
+  <h3>Preparation Tickets Preview</h3>
+
+  <div
+    class="ticket-block"
+    *ngFor="let ticket of preparationTickets">
+
+    <h4>{{ ticket.destination }}</h4>
+
+    <ul>
+      <li *ngFor="let item of ticket.items">
+        {{ item.productName }} x{{ item.quantity }}
+      </li>
+    </ul>
+
+  </div>
+
+</div>
 
     <button
   class="invoice-btn"
