@@ -23,6 +23,7 @@ export class OrdersHistory implements OnInit {
 
   searchText = '';
 selectedStatus = 'ALL';
+ticket: any;
 
 
 
@@ -56,7 +57,7 @@ selectedStatus = 'ALL';
 openDetails(order: any): void {
   this.selectedOrder = order;
 
-  this.orderService.getPreparationTicketsPreview(order.id)
+  this.orderService.getKitchenTicketsByOrder(order.id)
     .subscribe({
       next: (data) => {
         this.preparationTickets = data;
@@ -67,7 +68,6 @@ openDetails(order: any): void {
       }
     });
 }
-
 
 closeDetails(): void {
   this.selectedOrder = null;
@@ -130,5 +130,27 @@ exportOrdersCsv(): void {
 
   window.URL.revokeObjectURL(url);
   this.toastService.success('Export CSV effectué avec succès');
+}
+
+updateTicketStatus(ticketId: number, status: string): void {
+  this.orderService.updateKitchenTicketStatus(ticketId, status)
+    .subscribe({
+      next: () => {
+        this.toastService.success('Statut du ticket mis à jour');
+
+        if (this.selectedOrder) {
+          this.orderService
+            .getKitchenTicketsByOrder(this.selectedOrder.id)
+            .subscribe({
+              next: (data) => this.preparationTickets = data,
+              error: () => this.preparationTickets = []
+            });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Erreur lors du changement de statut');
+      }
+    });
 }
 }

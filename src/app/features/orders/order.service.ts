@@ -56,4 +56,18 @@ getPreparationTicketsPreview(orderId: number): Observable<any[]> {
     `${this.apiUrl}/${orderId}/preparation-tickets-preview`
   );
 }
+
+updateKitchenTicketStatus(ticketId: number, status: string) {
+  return this.http.patch(
+    `http://localhost:8083/api/kitchen-tickets/${ticketId}/status?status=${status}`,
+    {}
+  );
+}
+
+getKitchenTicketsByOrder(orderId: number) {
+  return this.http.get<any[]>(
+    `http://localhost:8083/api/kitchen-tickets/order/${orderId}`
+  );
+}
+
 }

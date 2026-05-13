@@ -128,14 +128,42 @@
     *ngFor="let ticket of preparationTickets">
 
     <h4>{{ ticket.destination }}</h4>
-
+<div class="ticket-status">
+  {{ ticket.status }}
+</div>
     <ul>
       <li *ngFor="let item of ticket.items">
         {{ item.productName }} x{{ item.quantity }}
       </li>
     </ul>
 
-  </div>
+  
+<div class="ticket-actions">
+
+  <button
+    type="button"
+    *ngIf="ticket.status === 'PENDING'"
+    (click)="updateTicketStatus(ticket.id, 'IN_PROGRESS')">
+    Start
+  </button>
+
+  <button
+    type="button"
+    *ngIf="ticket.status === 'IN_PROGRESS'"
+    (click)="updateTicketStatus(ticket.id, 'READY')">
+    Ready
+  </button>
+
+  <button
+    type="button"
+    *ngIf="ticket.status === 'READY'"
+    (click)="updateTicketStatus(ticket.id, 'DELIVERED')">
+    Delivered
+  </button>
+
+</div>
+</div>
+
 
 </div>
 
