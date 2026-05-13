@@ -133,9 +133,20 @@ this.orderService.createOrder(this.selectedCustomerId).subscribe({    next: (ord
       ).subscribe({
         next: () => {},
         complete: () => {
-          this.toastService.success('Commande créée avec succès');
-          this.message = 'Commande créée avec succès';
-        },
+
+  this.orderService.generateKitchenTickets(order.id)
+    .subscribe({
+      next: () => {
+        this.toastService.success('Commande créée avec succès');
+        this.message = 'Commande créée avec succès';
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Commande créée mais erreur génération tickets');
+      }
+    });
+
+},
         error: (err) => {
           console.error(err);
           this.toastService.error('Erreur lors de l’ajout des produits à la commande');
