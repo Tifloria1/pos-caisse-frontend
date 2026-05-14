@@ -15,23 +15,23 @@ createOrder(
   customerId?: number | null,
   tableId?: number | null
 ): Observable<any> {
-let url = this.apiUrl;
+  let url = this.apiUrl;
 
-const params = [];
+  const params: string[] = [];
 
-if (customerId) {
-  params.push(`customerId=${customerId}`);
-}
+  if (customerId !== null && customerId !== undefined) {
+    params.push(`customerId=${customerId}`);
+  }
 
-if (tableId) {
-  params.push(`tableId=${tableId}`);
-}
+  if (tableId !== null && tableId !== undefined) {
+    params.push(`tableId=${tableId}`);
+  }
 
-if (params.length > 0) {
-  url += '?' + params.join('&');
-}
+  if (params.length > 0) {
+    url += '?' + params.join('&');
+  }
 
-return this.http.post(url, {});
+  return this.http.post(url, {});
 }
 
   addProductToOrder(orderId: number, productId: number, quantity: number): Observable<any> {
@@ -92,6 +92,12 @@ generateKitchenTickets(orderId: number) {
   return this.http.post(
     `http://localhost:8083/api/kitchen-tickets/order/${orderId}/generate`,
     {}
+  );
+}
+
+getActiveOrderByTable(tableId: number) {
+  return this.http.get<any>(
+    `${this.apiUrl}/table/${tableId}/active`
   );
 }
 

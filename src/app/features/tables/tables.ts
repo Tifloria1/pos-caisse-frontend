@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ToastService } from '../../core/services/toast.service';
 import { TableService } from './table.service';
+import { interval, Subscription } from 'rxjs';
 
 
 
@@ -13,8 +14,10 @@ import { TableService } from './table.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './tables.html',
   styleUrl: './tables.css'
+
+  
 })
-export class Tables implements OnInit {
+export class Tables implements OnInit, OnDestroy {
 
   tables: any[] = [];
 
@@ -24,15 +27,25 @@ export class Tables implements OnInit {
   };
 
   loading = false;
+  private refreshSubscription?: Subscription;
 
   constructor(
     private tableService: TableService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    
   ) {}
 
   ngOnInit(): void {
+  this.loadTables();
+
+  this.refreshSubscription = interval(60000).subscribe(() => {
     this.loadTables();
-  }
+  });
+}
+
+ngOnDestroy(): void {
+  this.refreshSubscription?.unsubscribe();
+}
 
   loadTables(): void {
     this.loading = true;
@@ -41,6 +54,7 @@ export class Tables implements OnInit {
       .subscribe({
         next: (data) => {
           this.tables = data;
+          this.loadOccupiedDurations();
           this.loading = false;
         },
         error: (err) => {
@@ -49,6 +63,34 @@ export class Tables implements OnInit {
           this.loading = false;
         }
       });
+  }
+   loadOccupiedDurations(): void {
+
+    this.tables.forEach(table => {
+
+      if (table.status === 'OCCUPIED') {
+
+        this.tableService.getActiveOrder(table.id)
+          .subscribe({
+            next: (order) => {
+
+              if (order?.createdAt) {
+
+                const created = new Date(order.createdAt).getTime();
+
+                const now = new Date().getTime();
+
+                const diffMinutes = Math.floor(
+                  (now - created) / 60000
+                );
+
+                table.occupiedMinutes = diffMinutes;
+              }
+            },
+            error: () => {}
+          });
+      }
+    });
   }
 
   createTable(): void {

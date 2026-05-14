@@ -77,11 +77,8 @@ selectedTableId: number | null = null;
 loadTables(): void {
   this.tableService.getTables().subscribe({
     next: (data) => {
-      this.tables = data.filter(
-        table =>
-          table.status === 'FREE' ||
-          table.status === 'RESERVED'
-      );
+      this.tables = data;
+      
     }
   });
 }
@@ -136,47 +133,80 @@ validateOrder(): void {
 
   this.loading = true;
 
-this.orderService.createOrder(this.selectedCustomerId, this.selectedTableId).subscribe({    next: (order) => {
-      this.currentOrderId = order.id;
-
-      from(this.cart).pipe(
-        concatMap(item =>
-          this.orderService.addProductToOrder(
-            order.id,
-            item.product.id,
-            item.quantity
-          )
-        ),
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe({
-        next: () => {},
-        complete: () => {
-
-  this.orderService.generateKitchenTickets(order.id)
-    .subscribe({
-      next: () => {
-        this.toastService.success('Commande créée avec succès');
-        this.message = 'Commande créée avec succès';
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastService.error('Commande créée mais erreur génération tickets');
-      }
-    });
-
-},
-        error: (err) => {
-          console.error(err);
-          this.toastService.error('Erreur lors de l’ajout des produits à la commande');
+  if (this.selectedTableId) {
+    this.orderService.getActiveOrderByTable(this.selectedTableId)
+      .subscribe({
+        next: (existingOrder) => {
+          if (existingOrder) {
+            this.addProductsToExistingOrder(existingOrder.id);
+          } else {
+            this.createNewOrder();
+          }
+        },
+        error: () => {
+          this.createNewOrder();
         }
       });
+
+    return;
+  }
+
+  this.createNewOrder();
+}
+
+
+
+createNewOrder(): void {
+  this.orderService.createOrder(
+    this.selectedCustomerId,
+    this.selectedTableId
+  ).subscribe({
+    next: (order) => {
+      this.currentOrderId = order.id;
+      this.addProductsToExistingOrder(order.id);
     },
     error: (err) => {
       console.error(err);
       this.loading = false;
       this.toastService.error('Erreur lors de la création de la commande');
+    }
+  });
+}
+
+addProductsToExistingOrder(orderId: number): void {
+  this.currentOrderId = orderId;
+
+  from(this.cart).pipe(
+    concatMap(item =>
+      this.orderService.addProductToOrder(
+        orderId,
+        item.product.id,
+        item.quantity
+      )
+    ),
+    finalize(() => {
+      this.loading = false;
+    })
+  ).subscribe({
+    next: () => {},
+    complete: () => {
+      this.orderService.generateKitchenTickets(orderId)
+        .subscribe({
+          next: () => {
+            this.toastService.success('Produits ajoutés à la commande');
+            this.message = 'Commande mise à jour avec succès';
+            this.cart = [];
+            this.loadTables();
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastService.error('Commande mise à jour mais erreur génération tickets');
+          }
+        });
+    },
+    error: (err) => {
+      console.error(err);
+      this.toastService.error('Erreur lors de l’ajout des produits à la commande');
     }
   });
 }

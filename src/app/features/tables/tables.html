@@ -37,6 +37,10 @@
       <div class="status">
         {{ table.status }}
       </div>
+      <p *ngIf="table.status === 'OCCUPIED'">
+  Occupied since:
+  {{ table.occupiedMinutes || 0 }} min
+</p>
 
       <div class="actions">
 

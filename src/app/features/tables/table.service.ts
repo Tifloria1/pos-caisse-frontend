@@ -28,4 +28,17 @@ export class TableService {
   deleteTable(tableId: number) {
     return this.http.delete(`${this.apiUrl}/${tableId}`);
   }
+
+  getActiveOrder(tableId: number) {
+  return this.http.get<any>(
+    `http://localhost:8083/api/orders/table/${tableId}/active`
+  );
+}
+
+getActiveOrderByTable(tableId: number) {
+
+  return this.http.get<any>(
+    `${this.apiUrl}/table/${tableId}/active`
+  );
+}
 }
