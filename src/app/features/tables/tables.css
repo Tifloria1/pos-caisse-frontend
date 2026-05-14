@@ -131,3 +131,15 @@
 
   cursor: pointer;
 }
+
+.pay-modal-btn {
+  margin-top: 18px;
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  background: #198754;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

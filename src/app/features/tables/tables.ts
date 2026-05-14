@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
 import { TableService } from './table.service';
 import { interval, Subscription } from 'rxjs';
+import { PaymentService } from '../orders/payment.service';
+import { InvoiceService } from '../orders/invoice.service';
 
 
 
@@ -35,7 +37,10 @@ showOrderModal = false;
   constructor(
     private tableService: TableService,
     private toastService: ToastService,
+    private paymentService: PaymentService,
+    private invoiceService: InvoiceService
     
+
   ) {}
 
   ngOnInit(): void {
@@ -174,6 +179,29 @@ closeModal(): void {
       error: (err) => {
         console.error(err);
         this.toastService.error('Erreur suppression');
+      }
+    });
+}
+
+
+paySelectedOrder(): void {
+  if (!this.selectedOrder) {
+    return;
+  }
+
+  this.paymentService.payOrder(this.selectedOrder.id, 'ESPECES')
+    .subscribe({
+      next: () => {
+        this.toastService.success('Commande payée avec succès');
+
+        this.invoiceService.downloadInvoicePdf(this.selectedOrder.id);
+
+        this.closeModal();
+        this.loadTables();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Erreur lors du paiement');
       }
     });
 }

@@ -108,7 +108,7 @@
 <div
   class="product-line"
   *ngFor="let item of selectedOrder?.items">
-  
+
       <span>
         {{ item.productName }}
       </span>
@@ -118,6 +118,13 @@
       </span>
 
     </div>
+
+    <button
+  class="pay-modal-btn"
+  *ngIf="selectedOrder?.status === 'EN_ATTENTE'"
+  (click)="paySelectedOrder()">
+  Payer + Facture PDF
+</button>
 
     <button
       class="close-btn"
