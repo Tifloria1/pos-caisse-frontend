@@ -42,6 +42,7 @@
         <th>Facture</th>
         <th>Paiement</th>
         <th>Client</th>
+        <th>Table</th>
       </tr>
     </thead>
 
@@ -85,6 +86,7 @@
 
 </td>
         <td>{{ order.customerName || 'Client anonyme' }}</td>
+        <td>{{ order.tableNumber || '-' }}</td>
       </tr>
     </tbody>
   </table>
