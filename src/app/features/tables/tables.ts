@@ -29,6 +29,9 @@ export class Tables implements OnInit, OnDestroy {
   loading = false;
   private refreshSubscription?: Subscription;
 
+  selectedOrder: any = null;
+showOrderModal = false;
+
   constructor(
     private tableService: TableService,
     private toastService: ToastService,
@@ -92,6 +95,28 @@ ngOnDestroy(): void {
       }
     });
   }
+
+  openTableOrder(tableId: number): void {
+
+  this.tableService.getActiveOrder(tableId)
+    .subscribe({
+      next: (order) => {
+
+        this.selectedOrder = order;
+
+        this.showOrderModal = true;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Aucune commande active');
+      }
+    });
+}
+
+closeModal(): void {
+  this.showOrderModal = false;
+  this.selectedOrder = null;
+}
 
   createTable(): void {
 

@@ -41,6 +41,12 @@
   Occupied since:
   {{ table.occupiedMinutes || 0 }} min
 </p>
+<button
+  *ngIf="table.status === 'OCCUPIED'"
+  class="details-btn"
+  (click)="openTableOrder(table.id)">
+  Voir commande
+</button>
 
       <div class="actions">
 
@@ -72,6 +78,54 @@
       </button>
 
     </div>
+
+  </div>
+
+</div>
+
+<div
+  class="modal-overlay"
+  *ngIf="showOrderModal">
+
+  <div class="modal-content">
+
+    <h2>
+      Commande #{{ selectedOrder?.id }}
+    </h2>
+
+    <p>
+      Status:
+      {{ selectedOrder?.status }}
+    </p>
+
+    <p>
+      Total:
+      {{ selectedOrder?.totalAmount }} DH
+    </p>
+
+    <h3>Produits</h3>
+
+<div
+  class="product-line"
+  *ngFor="let item of selectedOrder?.items">
+  
+      <span>
+        {{ item.productName }}
+      </span>
+
+      <span>
+        x{{ item.quantity }}
+      </span>
+
+    </div>
+
+    <button
+      class="close-btn"
+      (click)="closeModal()">
+
+      Fermer
+
+    </button>
 
   </div>
 
