@@ -5,6 +5,7 @@ import { InvoiceService } from './invoice.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
 import { AuthService } from '../../shared/models/auth.service';
+import { PaymentService } from './payment.service';
 @Component({
   selector: 'app-orders-history',
   standalone: true,
@@ -31,8 +32,11 @@ ticket: any;
   constructor(
     private orderService: OrderService,
     private invoiceService: InvoiceService,
+    private paymentService: PaymentService,
     private toastService : ToastService,
-    public authService: AuthService
+    public authService: AuthService,
+   
+    
   ) {}
 
   ngOnInit(): void {
@@ -151,6 +155,33 @@ updateTicketStatus(ticketId: number, status: string): void {
         console.error(err);
         this.toastService.error('Erreur lors du changement de statut');
       }
+    });
+}
+
+payOrder(order: any): void {
+
+  this.paymentService
+    .payOrder(order.id, 'ESPECES')
+    .subscribe({
+
+      next: () => {
+
+        this.toastService.success('Commande payée avec succès');
+
+        this.invoiceService.downloadInvoicePdf(order.id);
+
+        this.loadOrders();
+
+        if (this.selectedOrder?.id === order.id) {
+          this.selectedOrder.status = 'PAYEE';
+        }
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Erreur lors du paiement');
+      }
+
     });
 }
 }

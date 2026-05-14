@@ -40,6 +40,7 @@
         <th>Nb articles</th>
         <th>Détails</th>
         <th>Facture</th>
+        <th>Paiement</th>
         <th>Client</th>
       </tr>
     </thead>
@@ -72,6 +73,17 @@
   PDF
 </button>
         </td>
+
+        <td>
+
+  <button
+    *ngIf="order.status === 'EN_ATTENTE'"
+    class="pay-btn"
+    (click)="payOrder(order)">
+    Payer
+  </button>
+
+</td>
         <td>{{ order.customerName || 'Client anonyme' }}</td>
       </tr>
     </tbody>
