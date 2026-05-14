@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
 import { TableService } from './table.service';
 
+
+
 @Component({
   selector: 'app-tables',
   standalone: true,

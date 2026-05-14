@@ -11,6 +11,9 @@ import { concatMap, finalize } from 'rxjs/operators';
 import { ToastService } from '../../core/services/toast.service';
 import { AuthService } from '../../shared/models/auth.service';
 import { CustomersService } from '../customers/customers.service';
+
+import { TableService } from '../tables/table.service';
+
 interface CartItem {
   product: Product;
   quantity: number;
@@ -38,6 +41,9 @@ export class Orders implements OnInit {
   customers: any[] = [];
 selectedCustomerId: number | null = null;
 
+tables: any[] = [];
+selectedTableId: number | null = null;
+
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
@@ -46,11 +52,13 @@ selectedCustomerId: number | null = null;
     private toastService: ToastService,
     public authService: AuthService,
     private customersService: CustomersService,
+    private tableService: TableService,
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadCustomers();
+    this.loadTables();
   }
 
   loadProducts(): void {
@@ -63,6 +71,18 @@ selectedCustomerId: number | null = null;
   loadCustomers(): void {
   this.customersService.getCustomers().subscribe({
     next: (data) => this.customers = data
+  });
+}
+
+loadTables(): void {
+  this.tableService.getTables().subscribe({
+    next: (data) => {
+      this.tables = data.filter(
+        table =>
+          table.status === 'FREE' ||
+          table.status === 'RESERVED'
+      );
+    }
   });
 }
 
@@ -116,7 +136,7 @@ validateOrder(): void {
 
   this.loading = true;
 
-this.orderService.createOrder(this.selectedCustomerId).subscribe({    next: (order) => {
+this.orderService.createOrder(this.selectedCustomerId, this.selectedTableId).subscribe({    next: (order) => {
       this.currentOrderId = order.id;
 
       from(this.cart).pipe(
@@ -181,6 +201,8 @@ this.orderService.createOrder(this.selectedCustomerId).subscribe({    next: (ord
         .subscribe({
 
           next: () => {
+
+            this.loadTables();
 
             this.toastService.success('Paiement effectué avec succès');
 

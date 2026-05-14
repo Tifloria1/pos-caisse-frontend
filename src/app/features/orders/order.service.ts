@@ -11,15 +11,27 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  createOrder(customerId?: number | null): Observable<any> {
+createOrder(
+  customerId?: number | null,
+  tableId?: number | null
+): Observable<any> {
+let url = this.apiUrl;
 
-  let url = this.apiUrl;
+const params = [];
 
-  if (customerId) {
-    url += `?customerId=${customerId}`;
-  }
+if (customerId) {
+  params.push(`customerId=${customerId}`);
+}
 
-  return this.http.post(url, {});
+if (tableId) {
+  params.push(`tableId=${tableId}`);
+}
+
+if (params.length > 0) {
+  url += '?' + params.join('&');
+}
+
+return this.http.post(url, {});
 }
 
   addProductToOrder(orderId: number, productId: number, quantity: number): Observable<any> {

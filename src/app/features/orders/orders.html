@@ -88,6 +88,27 @@
 
 </select>
 
+<label>Table</label>
+
+<select [(ngModel)]="selectedTableId">
+
+  <option [ngValue]="null">
+    Sans table
+  </option>
+
+  <option
+    *ngFor="let table of tables"
+    [ngValue]="table.id">
+
+    Table {{ table.tableNumber }}
+    - {{ table.capacity }} places
+    - {{ table.status }}
+
+  </option>
+
+</select>
+
+
     <label>Méthode de paiement</label>
     <select [(ngModel)]="paymentMethod">
       <option value="ESPECES">Espèces</option>
