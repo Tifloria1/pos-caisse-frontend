@@ -63,6 +63,10 @@
       <a routerLink="/settings">Paramètres</a>
     </li>
 
+    <li *ngIf="authService.hasPermission('POS_ACCESS')">
+  <a routerLink="/caisse-session">Session caisse</a>
+</li>
+
   </ul>
 
 </nav>

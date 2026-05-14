@@ -1,0 +1,43 @@
+.session-page {
+  padding: 24px;
+}
+
+.session-card {
+  background: white;
+  max-width: 520px;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+button {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  background: #198754;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.close-btn {
+  background: #dc3545;
+}
+
+.status-open {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #d1fae5;
+  color: #065f46;
+  font-weight: 700;
+}

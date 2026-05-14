@@ -115,6 +115,10 @@
       <option value="CARTE">Carte</option>
     </select>
 
+    <div class="caisse-warning" *ngIf="!hasOpenCaisseSession">
+  Veuillez ouvrir une session caisse avant de vendre.
+</div>
+
     <button
       class="validate-btn"
       *ngIf="authService.hasPermission('POS_ACCESS')"
@@ -140,5 +144,8 @@
 
     <p class="message" *ngIf="message">{{ message }}</p>
   </div>
+
+  
+
 
 </div>

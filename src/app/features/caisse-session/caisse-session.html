@@ -1,0 +1,73 @@
+<div class="session-page">
+
+  <h1>Session de caisse</h1>
+
+  <div class="session-card">
+
+    <div *ngIf="!currentSession">
+
+      <h2>Ouvrir une session</h2>
+
+      <input
+        type="number"
+        placeholder="Montant ouverture"
+        [(ngModel)]="openingBalance"
+      >
+
+      <button
+        type="button"
+        (click)="openSession()">
+
+        Ouvrir session
+
+      </button>
+
+    </div>
+
+    <div *ngIf="currentSession">
+
+      <h2>Session ouverte</h2>
+
+      <p>
+        <strong>Ouverte par:</strong>
+        {{ currentSession.openedByName }}
+      </p>
+
+      <p>
+        <strong>Date:</strong>
+        {{ currentSession.openedAt | date:'dd/MM/yyyy HH:mm' }}
+      </p>
+
+      <p>
+        <strong>Fond caisse:</strong>
+        {{ currentSession.openingBalance }} DH
+      </p>
+
+      <p class="status-open">
+        OPEN
+      </p>
+
+      <hr>
+
+      <h3>Fermer session</h3>
+
+      <input
+        type="number"
+        placeholder="Montant fermeture"
+        [(ngModel)]="closingBalance"
+      >
+
+      <button
+        class="close-btn"
+        type="button"
+        (click)="closeSession()">
+
+        Fermer session
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

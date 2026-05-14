@@ -18,7 +18,7 @@ import { CuisineScreen } from './features/kitchen-screen/cuisine-screen/cuisine-
 import { BarScreen } from './features/kitchen-screen/bar-screen/bar-screen';
 import { PatisserieScreen } from './features/kitchen-screen/patisserie-screen/patisserie-screen';
 import { Tables } from './features/tables/tables';
-
+import { CaisseSession } from './features/caisse-session/caisse-session';
 export const routes: Routes = [
 
     {path: 'login', component: Login},
@@ -109,6 +109,13 @@ export const routes: Routes = [
   component: Tables,
   canActivate: [permissionGuard],
   data: { permission: 'ORDER_VIEW' }
+},
+
+{
+  path: 'caisse-session',
+  component: CaisseSession,
+  canActivate: [permissionGuard],
+  data: { permission: 'POS_ACCESS' }
 },
 
     {path: '', redirectTo: 'login' , pathMatch: 'full'},

@@ -11,7 +11,7 @@ import { concatMap, finalize } from 'rxjs/operators';
 import { ToastService } from '../../core/services/toast.service';
 import { AuthService } from '../../shared/models/auth.service';
 import { CustomersService } from '../customers/customers.service';
-
+import { CaisseSessionService } from '../caisse-session/caisse-session.service';
 import { TableService } from '../tables/table.service';
 
 interface CartItem {
@@ -44,6 +44,8 @@ selectedCustomerId: number | null = null;
 tables: any[] = [];
 selectedTableId: number | null = null;
 
+hasOpenCaisseSession = false;
+
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
@@ -53,12 +55,14 @@ selectedTableId: number | null = null;
     public authService: AuthService,
     private customersService: CustomersService,
     private tableService: TableService,
+    private caisseSessionService: CaisseSessionService
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadCustomers();
     this.loadTables();
+    this.checkCaisseSession();
   }
 
   loadProducts(): void {
@@ -131,12 +135,19 @@ validateOrder(): void {
     return;
   }
 
+  if (!this.hasOpenCaisseSession) {
+    this.message = 'Veuillez ouvrir une session caisse avant de vendre';
+    this.toastService.error('Veuillez ouvrir une session caisse');
+    return;
+  }
+
+  this.message = '';
   this.loading = true;
 
   if (this.selectedTableId) {
     this.orderService.getActiveOrderByTable(this.selectedTableId)
       .subscribe({
-        next: (existingOrder) => {
+        next: (existingOrder: any) => {
           if (existingOrder) {
             this.addProductsToExistingOrder(existingOrder.id);
           } else {
@@ -154,8 +165,6 @@ validateOrder(): void {
   this.createNewOrder();
 }
 
-
-
 createNewOrder(): void {
   this.orderService.createOrder(
     this.selectedCustomerId,
@@ -168,15 +177,17 @@ createNewOrder(): void {
     error: (err) => {
       console.error(err);
       this.loading = false;
-      this.toastService.error('Erreur lors de la création de la commande');
-    }
+this.message = 'Veuillez ouvrir une session caisse';
+this.toastService.error('Veuillez ouvrir une session caisse');    }
   });
 }
 
 addProductsToExistingOrder(orderId: number): void {
+
   this.currentOrderId = orderId;
 
   from(this.cart).pipe(
+
     concatMap(item =>
       this.orderService.addProductToOrder(
         orderId,
@@ -184,37 +195,69 @@ addProductsToExistingOrder(orderId: number): void {
         item.quantity
       )
     ),
+
     finalize(() => {
       this.loading = false;
     })
+
   ).subscribe({
+
     next: () => {},
+
+    error: (err) => {
+
+      console.error(err);
+
+      this.message = 'Veuillez ouvrir une session caisse';
+
+      this.toastService.error('Veuillez ouvrir une session caisse');
+    },
+
     complete: () => {
+
+      if (!this.currentOrderId) {
+        return;
+      }
+
       this.orderService.generateKitchenTickets(orderId)
         .subscribe({
+
           next: () => {
+
             this.toastService.success('Produits ajoutés à la commande');
+
             this.message = 'Commande mise à jour avec succès';
+
             this.cart = [];
+
             this.loadTables();
           },
+
           error: (err) => {
+
             console.error(err);
-            this.toastService.error('Commande mise à jour mais erreur génération tickets');
+
+            this.toastService.error(
+              'Commande mise à jour mais erreur génération tickets'
+            );
           }
+
         });
-    },
-    error: (err) => {
-      console.error(err);
-      this.toastService.error('Erreur lors de l’ajout des produits à la commande');
+
     }
+
   });
+
 }
-
-  payOrder(): void {
-
+payOrder(): void {
   if (!this.currentOrderId) {
     this.toastService.error('Veuillez d’abord valider la commande');
+    return;
+  }
+
+  if (!this.hasOpenCaisseSession) {
+    this.message = 'Veuillez ouvrir une session caisse avant le paiement';
+    this.toastService.error('Veuillez ouvrir une session caisse');
     return;
   }
 
@@ -224,49 +267,47 @@ addProductsToExistingOrder(orderId: number): void {
     this.currentOrderId,
     this.paymentMethod
   ).subscribe({
-
     next: () => {
-
       this.invoiceService.createInvoice(this.currentOrderId!)
         .subscribe({
-
           next: () => {
-
             this.loadTables();
-
             this.toastService.success('Paiement effectué avec succès');
-
             this.invoiceService.downloadInvoicePdf(this.currentOrderId!);
-
             this.clearCart();
-
             this.loadProducts();
-
             this.loading = false;
           },
-
           error: () => {
             this.loading = false;
             this.toastService.error('Erreur création facture');
           }
-
         });
-
     },
-
     error: () => {
       this.loading = false;
-      this.toastService.error('Erreur lors du paiement');
+      this.message = 'Veuillez ouvrir une session caisse';
+      this.toastService.error('Veuillez ouvrir une session caisse');
     }
-
   });
-
 }
-
   getFilteredProducts(): Product[] {
   return this.products.filter(product =>
     product.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
     product.barcode?.toLowerCase().includes(this.searchText.toLowerCase())
   );
+}
+
+
+checkCaisseSession(): void {
+  this.caisseSessionService.getOpenSession()
+    .subscribe({
+      next: (session : any) => {
+        this.hasOpenCaisseSession = !!session;
+      },
+      error: () => {
+        this.hasOpenCaisseSession = false;
+      }
+    });
 }
 }
