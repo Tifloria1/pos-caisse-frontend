@@ -1,0 +1,74 @@
+<div class="tables-page">
+
+  <div class="page-header">
+    <h1>Gestion des tables</h1>
+  </div>
+
+  <div class="create-form">
+
+    <input
+      type="text"
+      placeholder="Numéro table"
+      [(ngModel)]="newTable.tableNumber"
+    >
+
+    <input
+      type="number"
+      placeholder="Capacité"
+      [(ngModel)]="newTable.capacity"
+    >
+
+    <button type="button" (click)="createTable()">
+      Ajouter
+    </button>
+
+  </div>
+
+  <p *ngIf="loading">Chargement...</p>
+
+  <div class="tables-grid">
+
+    <div class="table-card" *ngFor="let table of tables">
+
+      <h2>{{ table.tableNumber }}</h2>
+
+      <p>Capacité: {{ table.capacity }}</p>
+
+      <div class="status">
+        {{ table.status }}
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="button"
+          (click)="updateStatus(table.id, 'FREE')">
+          FREE
+        </button>
+
+        <button
+          type="button"
+          (click)="updateStatus(table.id, 'OCCUPIED')">
+          OCCUPIED
+        </button>
+
+        <button
+          type="button"
+          (click)="updateStatus(table.id, 'RESERVED')">
+          RESERVED
+        </button>
+
+      </div>
+
+      <button
+        class="delete-btn"
+        type="button"
+        (click)="deleteTable(table.id)">
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

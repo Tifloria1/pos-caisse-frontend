@@ -17,6 +17,7 @@ import { Customers } from './features/customers/customers';
 import { CuisineScreen } from './features/kitchen-screen/cuisine-screen/cuisine-screen';
 import { BarScreen } from './features/kitchen-screen/bar-screen/bar-screen';
 import { PatisserieScreen } from './features/kitchen-screen/patisserie-screen/patisserie-screen';
+import { Tables } from './features/tables/tables';
 
 export const routes: Routes = [
 
@@ -99,6 +100,13 @@ export const routes: Routes = [
 {
   path: 'patisserie',
   component: PatisserieScreen,
+  canActivate: [permissionGuard],
+  data: { permission: 'ORDER_VIEW' }
+},
+
+{
+  path: 'tables',
+  component: Tables,
   canActivate: [permissionGuard],
   data: { permission: 'ORDER_VIEW' }
 },

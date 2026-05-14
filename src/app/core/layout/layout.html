@@ -32,6 +32,10 @@
 </li>
 
 <li *ngIf="authService.hasPermission('ORDER_VIEW')">
+  <a routerLink="/tables">Tables</a>
+</li>
+
+<li *ngIf="authService.hasPermission('ORDER_VIEW')">
   <a routerLink="/bar">Bar</a>
 </li>
 
