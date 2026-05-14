@@ -41,4 +41,11 @@ getActiveOrderByTable(tableId: number) {
     `${this.apiUrl}/table/${tableId}/active`
   );
 }
+
+transferTable(fromTableId: number, toTableId: number) {
+  return this.http.put(
+    `http://localhost:8083/api/orders/table/transfer?fromTableId=${fromTableId}&toTableId=${toTableId}`,
+    {}
+  );
+}
 }

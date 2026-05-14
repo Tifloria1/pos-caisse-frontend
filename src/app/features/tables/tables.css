@@ -143,3 +143,32 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.transfer-box {
+  margin-top: 16px;
+}
+
+.transfer-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.transfer-box select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.transfer-btn {
+  margin-top: 10px;
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  background: #0d6efd;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

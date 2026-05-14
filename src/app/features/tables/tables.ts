@@ -34,6 +34,8 @@ export class Tables implements OnInit, OnDestroy {
   selectedOrder: any = null;
 showOrderModal = false;
 
+targetTableId: number | null = null;
+
   constructor(
     private tableService: TableService,
     private toastService: ToastService,
@@ -204,5 +206,35 @@ paySelectedOrder(): void {
         this.toastService.error('Erreur lors du paiement');
       }
     });
+}
+
+getFreeTables() {
+  return this.tables.filter(table =>
+    table.status === 'FREE' &&
+    table.id !== this.selectedOrder?.tableId
+  );
+}
+
+transferSelectedOrder(): void {
+  if (!this.selectedOrder || !this.targetTableId) {
+    this.toastService.error('Veuillez choisir une table destination');
+    return;
+  }
+
+  this.tableService.transferTable(
+    this.selectedOrder.tableId,
+    this.targetTableId
+  ).subscribe({
+    next: () => {
+      this.toastService.success('Commande transférée avec succès');
+      this.closeModal();
+      this.targetTableId = null;
+      this.loadTables();
+    },
+    error: (err) => {
+      console.error(err);
+      this.toastService.error('Erreur lors du transfert');
+    }
+  });
 }
 }
