@@ -107,3 +107,12 @@ tbody tr:hover {
 .warning strong {
   color: #dc3545;
 }
+
+.pdf-btn {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}

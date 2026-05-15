@@ -120,6 +120,7 @@
         <th>Commandes</th>
         <th>Écart</th>
         <th>Status</th>
+        <th>Rapport</th>
       </tr>
     </thead>
 
@@ -158,6 +159,14 @@
         <td>
           {{ session.status }}
         </td>
+
+        <td>
+  <button
+    class="pdf-btn"
+    (click)="downloadReport(session.id)">
+    PDF
+  </button>
+</td>
 
       </tr>
 

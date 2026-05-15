@@ -123,4 +123,8 @@ loadStats(): void {
         }
       });
   }
+
+  downloadReport(sessionId: number): void {
+  this.caisseSessionService.downloadReportPdf(sessionId);
+}
 }

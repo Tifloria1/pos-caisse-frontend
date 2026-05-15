@@ -36,4 +36,14 @@ export class CaisseSessionService {
 getStats(): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/stats`);
 }
+
+downloadReportPdf(sessionId: number): void {
+  this.http.get(
+    `${this.apiUrl}/${sessionId}/report/pdf`,
+    { responseType: 'blob' }
+  ).subscribe((blob) => {
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  });
+}
 }
