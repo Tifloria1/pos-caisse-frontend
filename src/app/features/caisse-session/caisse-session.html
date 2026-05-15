@@ -186,10 +186,11 @@
 
         <td>
   <button
-    class="pdf-btn"
-    (click)="downloadReport(session.id)">
-    PDF
-  </button>
+  *ngIf="session.status === 'CLOSED'"
+  class="pdf-btn"
+  (click)="downloadReport(session.id)">
+  PDF
+</button>
 </td>
 
       </tr>
