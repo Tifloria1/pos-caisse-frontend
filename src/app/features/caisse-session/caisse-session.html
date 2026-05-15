@@ -177,10 +177,9 @@
           {{ session.ordersCount || 0 }}
         </td>
 
-        <td>
-          {{ session.differenceAmount || 0 }} DH
-        </td>
-
+<td [ngClass]="getDifferenceClass(session.differenceAmount)">
+  {{ session.differenceAmount || 0 }} DH
+</td>
         <td>
           {{ session.status }}
         </td>

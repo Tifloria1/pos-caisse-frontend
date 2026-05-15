@@ -134,3 +134,13 @@ tbody tr:hover {
   background: #6c757d;
 }
 
+.diff-ok {
+  color: #198754;
+  font-weight: 700;
+}
+
+.diff-alert {
+  color: #dc3545;
+  font-weight: 700;
+}
+

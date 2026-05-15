@@ -169,4 +169,13 @@ downloadHistoryReport(): void {
     this.endDate
   );
 }
+
+getDifferenceClass(difference: number): string {
+  if (!difference || difference === 0) {
+    return 'diff-ok';
+  }
+
+  return 'diff-alert';
+}
+
 }
