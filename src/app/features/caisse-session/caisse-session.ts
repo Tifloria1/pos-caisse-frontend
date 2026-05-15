@@ -24,6 +24,9 @@ export class CaisseSession implements OnInit {
   sessions: any[] = [];
   stats: any = null;
 
+  startDate = '';
+endDate = '';
+
   constructor(
     private caisseSessionService: CaisseSessionService,
     private toastService: ToastService
@@ -126,5 +129,30 @@ loadStats(): void {
 
   downloadReport(sessionId: number): void {
   this.caisseSessionService.downloadReportPdf(sessionId);
+}
+
+getFilteredSessions(): any[] {
+  return this.sessions.filter(session => {
+
+    const openedAt = new Date(session.openedAt).getTime();
+
+    if (this.startDate) {
+      const start = new Date(this.startDate).getTime();
+
+      if (openedAt < start) {
+        return false;
+      }
+    }
+
+    if (this.endDate) {
+      const end = new Date(this.endDate).getTime();
+
+      if (openedAt > end) {
+        return false;
+      }
+    }
+
+    return true;
+  });
 }
 }

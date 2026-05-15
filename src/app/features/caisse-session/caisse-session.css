@@ -116,3 +116,21 @@ tbody tr:hover {
   border-radius: 8px;
   cursor: pointer;
 }
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.filters input {
+  max-width: 220px;
+  margin-bottom: 0;
+}
+
+.filters button {
+  max-width: 160px;
+  background: #6c757d;
+}
+

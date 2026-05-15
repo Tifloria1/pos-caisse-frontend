@@ -107,6 +107,25 @@
   <div class="history-card">
 
   <h2>Historique des sessions</h2>
+   <div class="filters">
+
+  <input
+    type="date"
+    [(ngModel)]="startDate"
+  >
+
+  <input
+    type="date"
+    [(ngModel)]="endDate"
+  >
+
+  <button
+    type="button"
+    (click)="startDate = ''; endDate = ''">
+    Réinitialiser
+  </button>
+
+</div>
 
   <table>
     <thead>
@@ -126,8 +145,7 @@
 
     <tbody>
 
-      <tr *ngFor="let session of sessions">
-
+<tr *ngFor="let session of getFilteredSessions()">
         <td>#{{ session.id }}</td>
 
         <td>{{ session.openedByName }}</td>
@@ -172,6 +190,8 @@
 
     </tbody>
   </table>
+
+ 
 
 </div>
 
