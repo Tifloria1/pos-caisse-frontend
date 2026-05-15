@@ -182,3 +182,16 @@ tbody tr:hover {
   margin-top: 18px;
 }
 
+.modal-payments-table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+}
+
+.modal-payments-table th,
+.modal-payments-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+

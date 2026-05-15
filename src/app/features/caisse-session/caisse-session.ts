@@ -27,6 +27,7 @@ export class CaisseSession implements OnInit {
   startDate = '';
 endDate = '';
 selectedSession: any = null;
+selectedSessionPayments: any[] = [];
 
 
 
@@ -184,10 +185,21 @@ getDifferenceClass(difference: number): string {
 
 openSessionDetails(session: any): void {
   this.selectedSession = session;
-}
+  this.selectedSessionPayments = [];
 
+  this.caisseSessionService.getSessionPayments(session.id)
+    .subscribe({
+      next: (payments) => {
+        this.selectedSessionPayments = payments;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+}
 closeSessionDetails(): void {
   this.selectedSession = null;
+  this.selectedSessionPayments = [];
 }
 
 }

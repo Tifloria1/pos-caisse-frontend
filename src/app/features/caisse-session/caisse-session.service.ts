@@ -56,4 +56,10 @@ downloadHistoryReportPdf(startDate: string, endDate: string): void {
     window.open(url);
   });
 }
+
+getSessionPayments(sessionId: number): Observable<any[]> {
+  return this.http.get<any[]>(
+    `${this.apiUrl}/${sessionId}/payments`
+  );
+}
 }

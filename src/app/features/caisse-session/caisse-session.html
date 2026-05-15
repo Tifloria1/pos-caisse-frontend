@@ -21,6 +21,34 @@
     <p><strong>Écart:</strong> {{ selectedSession.differenceAmount || 0 }} DH</p>
     <p><strong>Commandes:</strong> {{ selectedSession.ordersCount || 0 }}</p>
 
+    <hr>
+
+<h3>Paiements</h3>
+
+<table class="modal-payments-table">
+  <thead>
+    <tr>
+      <th>Commande</th>
+      <th>Montant</th>
+      <th>Méthode</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let payment of selectedSessionPayments">
+      <td>#{{ payment.orderId }}</td>
+      <td>{{ payment.amount }} DH</td>
+      <td>{{ payment.paymentMethod }}</td>
+      <td>{{ payment.paidAt | date:'dd/MM/yyyy HH:mm' }}</td>
+    </tr>
+
+    <tr *ngIf="selectedSessionPayments.length === 0">
+      <td colspan="4">Aucun paiement pour cette session.</td>
+    </tr>
+  </tbody>
+</table>
+
     <button
       class="close-modal-btn"
       (click)="closeSessionDetails()">
