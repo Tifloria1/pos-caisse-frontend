@@ -2,6 +2,40 @@
 
   <h1>Session de caisse</h1>
 
+  <div class="stats-grid" *ngIf="stats">
+
+  <div class="stat-card">
+    <h3>Espèces total</h3>
+    <strong>{{ stats.totalCash }} DH</strong>
+  </div>
+
+  <div class="stat-card">
+    <h3>Carte total</h3>
+    <strong>{{ stats.totalCard }} DH</strong>
+  </div>
+
+  <div class="stat-card">
+    <h3>CA caisse</h3>
+    <strong>{{ stats.totalRevenue }} DH</strong>
+  </div>
+
+  <div class="stat-card">
+    <h3>Sessions</h3>
+    <strong>{{ stats.sessionsCount }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <h3>Commandes</h3>
+    <strong>{{ stats.ordersCount }}</strong>
+  </div>
+
+  <div class="stat-card warning">
+    <h3>Écart total</h3>
+    <strong>{{ stats.totalDifference }} DH</strong>
+  </div>
+
+</div>
+
   <div class="session-card">
 
     <div *ngIf="!currentSession">

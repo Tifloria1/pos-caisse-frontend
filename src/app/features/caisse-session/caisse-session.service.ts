@@ -32,4 +32,8 @@ export class CaisseSessionService {
   getAllSessions(): Observable<any[]> {
   return this.http.get<any[]>(this.apiUrl);
 }
+
+getStats(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/stats`);
+}
 }

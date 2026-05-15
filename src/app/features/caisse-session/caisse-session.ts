@@ -22,6 +22,7 @@ export class CaisseSession implements OnInit {
   loading = false;
 
   sessions: any[] = [];
+  stats: any = null;
 
   constructor(
     private caisseSessionService: CaisseSessionService,
@@ -31,6 +32,7 @@ export class CaisseSession implements OnInit {
   ngOnInit(): void {
     this.loadOpenSession();
     this.loadSessions();
+    this.loadStats();
   }
 
   loadOpenSession(): void {
@@ -54,6 +56,18 @@ export class CaisseSession implements OnInit {
     });
 }
 
+loadStats(): void {
+  this.caisseSessionService.getStats()
+    .subscribe({
+      next: (stats) => {
+        this.stats = stats;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+}
+
   openSession(): void {
 
     this.loading = true;
@@ -69,6 +83,7 @@ export class CaisseSession implements OnInit {
 
           this.loading = false;
           this.loadSessions();
+          this.loadStats();
         },
         error: (err) => {
 
@@ -96,6 +111,7 @@ export class CaisseSession implements OnInit {
 
           this.loading = false;
           this.loadSessions();
+          this.loadStats();
         },
         error: (err) => {
 
