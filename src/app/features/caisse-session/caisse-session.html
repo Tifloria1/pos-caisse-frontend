@@ -1,3 +1,37 @@
+<div class="modal-backdrop" *ngIf="selectedSession">
+
+  <div class="session-modal">
+
+    <h2>Session #{{ selectedSession.id }}</h2>
+
+    <p><strong>Status:</strong> {{ selectedSession.status }}</p>
+    <p><strong>Ouverte par:</strong> {{ selectedSession.openedByName }}</p>
+    <p><strong>Fermée par:</strong> {{ selectedSession.closedByName || '-' }}</p>
+
+    <p><strong>Ouverture:</strong> {{ selectedSession.openedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Fermeture:</strong> {{ selectedSession.closedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+
+    <hr>
+
+    <p><strong>Fond caisse:</strong> {{ selectedSession.openingBalance || 0 }} DH</p>
+    <p><strong>Espèces:</strong> {{ selectedSession.totalCash || 0 }} DH</p>
+    <p><strong>Carte:</strong> {{ selectedSession.totalCard || 0 }} DH</p>
+    <p><strong>Solde attendu:</strong> {{ selectedSession.expectedBalance || 0 }} DH</p>
+    <p><strong>Solde réel:</strong> {{ selectedSession.closingBalance || 0 }} DH</p>
+    <p><strong>Écart:</strong> {{ selectedSession.differenceAmount || 0 }} DH</p>
+    <p><strong>Commandes:</strong> {{ selectedSession.ordersCount || 0 }}</p>
+
+    <button
+      class="close-modal-btn"
+      (click)="closeSessionDetails()">
+      Fermer
+    </button>
+
+  </div>
+
+</div>
+
+
 <div class="session-page">
 
   <h1>Session de caisse</h1>
@@ -147,6 +181,7 @@
         <th>Écart</th>
         <th>Status</th>
         <th>Rapport</th>
+        <th>Détails</th>
       </tr>
     </thead>
 
@@ -191,6 +226,14 @@
   (click)="downloadReport(session.id)">
   PDF
 </button>
+</td>
+
+<td>
+  <button
+    class="details-btn"
+    (click)="openSessionDetails(session)">
+    Voir
+  </button>
 </td>
 
       </tr>

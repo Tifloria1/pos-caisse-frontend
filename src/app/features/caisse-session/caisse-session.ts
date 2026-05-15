@@ -26,6 +26,10 @@ export class CaisseSession implements OnInit {
 
   startDate = '';
 endDate = '';
+selectedSession: any = null;
+
+
+
 
   constructor(
     private caisseSessionService: CaisseSessionService,
@@ -176,6 +180,14 @@ getDifferenceClass(difference: number): string {
   }
 
   return 'diff-alert';
+}
+
+openSessionDetails(session: any): void {
+  this.selectedSession = session;
+}
+
+closeSessionDetails(): void {
+  this.selectedSession = null;
 }
 
 }
