@@ -21,6 +21,8 @@ export class CaisseSession implements OnInit {
 
   loading = false;
 
+  sessions: any[] = [];
+
   constructor(
     private caisseSessionService: CaisseSessionService,
     private toastService: ToastService
@@ -28,6 +30,7 @@ export class CaisseSession implements OnInit {
 
   ngOnInit(): void {
     this.loadOpenSession();
+    this.loadSessions();
   }
 
   loadOpenSession(): void {
@@ -43,6 +46,14 @@ export class CaisseSession implements OnInit {
       });
   }
 
+  loadSessions(): void {
+  this.caisseSessionService.getAllSessions()
+    .subscribe({
+      next: (data) => this.sessions = data,
+      error: (err) => console.error(err)
+    });
+}
+
   openSession(): void {
 
     this.loading = true;
@@ -57,6 +68,7 @@ export class CaisseSession implements OnInit {
           this.toastService.success('Session caisse ouverte');
 
           this.loading = false;
+          this.loadSessions();
         },
         error: (err) => {
 
@@ -76,13 +88,14 @@ export class CaisseSession implements OnInit {
     this.caisseSessionService
       .closeSession(this.closingBalance)
       .subscribe({
-        next: (data) => {
+        next: (session) => {
 
           this.currentSession = null;
 
           this.toastService.success('Session caisse fermée');
 
           this.loading = false;
+          this.loadSessions();
         },
         error: (err) => {
 

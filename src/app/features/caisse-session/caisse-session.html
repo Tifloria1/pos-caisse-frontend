@@ -70,4 +70,66 @@
 
   </div>
 
+  <div class="history-card">
+
+  <h2>Historique des sessions</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Caissier</th>
+        <th>Ouverture</th>
+        <th>Fermeture</th>
+        <th>Espèces</th>
+        <th>Carte</th>
+        <th>Commandes</th>
+        <th>Écart</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let session of sessions">
+
+        <td>#{{ session.id }}</td>
+
+        <td>{{ session.openedByName }}</td>
+
+        <td>
+          {{ session.openedAt | date:'dd/MM/yyyy HH:mm' }}
+        </td>
+
+        <td>
+          {{ session.closedAt | date:'dd/MM/yyyy HH:mm' }}
+        </td>
+
+        <td>
+          {{ session.totalCash || 0 }} DH
+        </td>
+
+        <td>
+          {{ session.totalCard || 0 }} DH
+        </td>
+
+        <td>
+          {{ session.ordersCount || 0 }}
+        </td>
+
+        <td>
+          {{ session.differenceAmount || 0 }} DH
+        </td>
+
+        <td>
+          {{ session.status }}
+        </td>
+
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
 </div>

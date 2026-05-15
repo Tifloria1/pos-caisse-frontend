@@ -28,4 +28,8 @@ export class CaisseSessionService {
       {}
     );
   }
+
+  getAllSessions(): Observable<any[]> {
+  return this.http.get<any[]>(this.apiUrl);
+}
 }
