@@ -120,6 +120,13 @@
   >
 
   <button
+  type="button"
+  class="export-btn"
+  (click)="downloadHistoryReport()">
+  Exporter PDF
+</button>
+
+  <button
     type="button"
     (click)="startDate = ''; endDate = ''">
     Réinitialiser

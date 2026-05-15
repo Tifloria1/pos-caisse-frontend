@@ -137,22 +137,36 @@ getFilteredSessions(): any[] {
     const openedAt = new Date(session.openedAt).getTime();
 
     if (this.startDate) {
-      const start = new Date(this.startDate).getTime();
+      const start = new Date(this.startDate);
+      start.setHours(0, 0, 0, 0);
 
-      if (openedAt < start) {
+      if (openedAt < start.getTime()) {
         return false;
       }
     }
 
     if (this.endDate) {
-      const end = new Date(this.endDate).getTime();
+      const end = new Date(this.endDate);
+      end.setHours(23, 59, 59, 999);
 
-      if (openedAt > end) {
+      if (openedAt > end.getTime()) {
         return false;
       }
     }
 
     return true;
   });
+}
+downloadHistoryReport(): void {
+
+  if (!this.startDate || !this.endDate) {
+    this.toastService.error('Veuillez choisir une date début et une date fin');
+    return;
+  }
+
+  this.caisseSessionService.downloadHistoryReportPdf(
+    this.startDate,
+    this.endDate
+  );
 }
 }

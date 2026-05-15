@@ -46,4 +46,14 @@ downloadReportPdf(sessionId: number): void {
     window.open(url);
   });
 }
+
+downloadHistoryReportPdf(startDate: string, endDate: string): void {
+  this.http.get(
+    `${this.apiUrl}/report/pdf?startDate=${startDate}&endDate=${endDate}`,
+    { responseType: 'blob' }
+  ).subscribe((blob) => {
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  });
+}
 }
