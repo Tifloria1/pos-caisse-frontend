@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, registerables } from 'chart.js';
-
+import { DashboardCaisseService } from './dashboard-caisse.service';
 Chart.register(...registerables);
 
 @Component({
@@ -39,8 +39,10 @@ export class Dashboard implements OnInit {
 todayAverageBasket = 0;
 
 profit = 0;
+caisseStats: any;
 
-  constructor(private dashboardService: DashboardService) {}
+
+  constructor(private dashboardService: DashboardService, private caisseService: DashboardCaisseService) {}
 
   ngOnInit(): void {
     this.loadDashboard(
@@ -61,7 +63,7 @@ profit = 0;
       }
     });
 
-    this.dashboardService.getRevenue().subscribe({
+  this.dashboardService.getRevenue().subscribe({
   next: (data) => {
     console.log('DAILY REVENUE:', data);
 
@@ -71,6 +73,13 @@ profit = 0;
     this.lineData = data.map((item: any) => item.total);
   }
 });
+
+this.caisseService.getStats().subscribe({
+  next: (data) => {
+    this.caisseStats = data;
+  }
+});
+  
 
 this.dashboardService.getTodayRevenue().subscribe({
   next: (data) => {

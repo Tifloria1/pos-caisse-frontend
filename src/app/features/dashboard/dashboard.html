@@ -47,6 +47,42 @@
     </div>
   </div>
 
+  <h2>Statistiques caisse</h2>
+
+  <div class="cards" *ngIf="caisseStats">
+
+  <div class="card caisse-card">
+    <h3>Total espèces</h3>
+    <p>{{ caisseStats.totalCash }} DH</p>
+  </div>
+
+  <div class="card caisse-card">
+    <h3>Total carte</h3>
+    <p>{{ caisseStats.totalCard }} DH</p>
+  </div>
+
+  <div class="card caisse-card">
+    <h3>CA caisse</h3>
+    <p>{{ caisseStats.totalRevenue }} DH</p>
+  </div>
+
+  <div class="card caisse-card">
+    <h3>Sessions caisse</h3>
+    <p>{{ caisseStats.sessionsCount }}</p>
+  </div>
+
+  <div class="card caisse-card">
+    <h3>Commandes caisse</h3>
+    <p>{{ caisseStats.ordersCount }}</p>
+  </div>
+
+  <div class="card caisse-card danger">
+    <h3>Écart total</h3>
+    <p>{{ caisseStats.totalDifference }} DH</p>
+  </div>
+
+</div>
+
   <h2>Chiffre d'affaires mensuel</h2>
 
 <div class="chart-card">
