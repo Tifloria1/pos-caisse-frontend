@@ -79,3 +79,22 @@
   padding: 0;
   overflow-x: hidden;
 }
+
+.session-badge {
+  margin: 12px 0 18px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.session-badge.open {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.session-badge.closed {
+  background: #fee2e2;
+  color: #991b1b;
+}
