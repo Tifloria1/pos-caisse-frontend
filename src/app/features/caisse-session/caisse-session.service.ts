@@ -62,4 +62,18 @@ getSessionPayments(sessionId: number): Observable<any[]> {
     `${this.apiUrl}/${sessionId}/payments`
   );
 }
+
+requestCloseSession(closingBalance: number): Observable<any> {
+  return this.http.post<any>(
+    `${this.apiUrl}/request-close?closingBalance=${closingBalance}`,
+    {}
+  );
+}
+
+validateCloseSession(sessionId: number): Observable<any> {
+  return this.http.post<any>(
+    `${this.apiUrl}/${sessionId}/validate-close`,
+    {}
+  );
+}
 }

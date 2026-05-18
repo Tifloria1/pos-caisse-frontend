@@ -115,15 +115,13 @@ loadStats(): void {
 
     this.loading = true;
 
-    this.caisseSessionService
-      .closeSession(this.closingBalance)
+    this.caisseSessionService.requestCloseSession(this.closingBalance)
       .subscribe({
         next: (session) => {
 
           this.currentSession = null;
 
-          this.toastService.success('Session caisse fermée');
-
+this.toastService.success('Demande de fermeture envoyée');
           this.loading = false;
           this.loadSessions();
           this.loadStats();
@@ -260,6 +258,21 @@ addCashMovement(): void {
       this.toastService.error('Erreur ajout mouvement caisse');
     }
   });
+}
+
+validateClose(sessionId: number): void {
+  this.caisseSessionService.validateCloseSession(sessionId)
+    .subscribe({
+      next: () => {
+        this.toastService.success('Fermeture validée');
+        this.loadOpenSession();
+        this.loadSessions();
+        this.loadStats();
+      },
+      error: () => {
+        this.toastService.error('Erreur validation fermeture');
+      }
+    });
 }
 
 }

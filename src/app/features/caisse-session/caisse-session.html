@@ -120,6 +120,18 @@
 
   <h1>Session de caisse</h1>
 
+  <div class="active-session-card" *ngIf="currentSession">
+
+  <h2>Session active</h2>
+
+  <p><strong>Ouverte par:</strong> {{ currentSession.openedByName }}</p>
+  <p><strong>Ouverture:</strong> {{ currentSession.openedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+  <p><strong>Fond caisse:</strong> {{ currentSession.openingBalance }} DH</p>
+
+  <span class="active-badge">OPEN</span>
+
+</div>
+
   <div class="stats-grid" *ngIf="stats">
 
   <div class="stat-card">
@@ -201,7 +213,7 @@
 
       <hr>
 
-      <h3>Fermer session</h3>
+      <h3>Demander fermeture</h3>
 
       <input
         type="number"
@@ -210,13 +222,11 @@
       >
 
       <button
-        class="close-btn"
-        type="button"
-        (click)="closeSession()">
-
-        Fermer session
-
-      </button>
+  *ngIf="currentSession.status === 'OPEN'"
+  class="close-session-btn"
+  (click)="closeSession()">
+  Demander fermeture
+</button>
 
     </div>
 
@@ -264,14 +274,14 @@
         <th>Commandes</th>
         <th>Écart</th>
         <th>Status</th>
-        <th>Rapport</th>
-        <th>Détails</th>
+        <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
 
 <tr *ngFor="let session of getFilteredSessions()">
+  
         <td>#{{ session.id }}</td>
 
         <td>{{ session.openedByName }}</td>
@@ -310,23 +320,21 @@
   (click)="downloadReport(session.id)">
   PDF
 </button>
+
+<td class="actions-cell">
+
+<button
+  *ngIf="session.status === 'PENDING_CLOSURE'"
+  class="validate-btn"
+  (click)="validateClose(session.id)">
+  Valider
+</button>
+
+<button
+  class="details-btn"
+  (click)="openSessionDetails(session)">
+  Voir
+</button>
 </td>
-
-<td>
-  <button
-    class="details-btn"
-    (click)="openSessionDetails(session)">
-    Voir
-  </button>
-</td>
-
-      </tr>
-
-    </tbody>
-  </table>
 
  
-
-</div>
-
-</div>

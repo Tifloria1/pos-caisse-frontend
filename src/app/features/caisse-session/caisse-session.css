@@ -108,14 +108,7 @@ tbody tr:hover {
   color: #dc3545;
 }
 
-.pdf-btn {
-  background: #0d6efd;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
+
 
 .filters {
   display: flex;
@@ -144,14 +137,7 @@ tbody tr:hover {
   font-weight: 700;
 }
 
-.details-btn {
-  background: #ffc107;
-  color: #111;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
+
 
 .modal-backdrop {
   position: fixed;
@@ -227,3 +213,55 @@ tbody tr:hover {
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+.active-session-card {
+  background: #ecfdf5;
+  border-left: 6px solid #198754;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.active-badge {
+  display: inline-block;
+  margin-top: 8px;
+  background: #198754;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.validate-btn,
+.pdf-btn,
+.details-btn {
+  min-width: 70px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.validate-btn {
+  background: #198754;
+  color: white;
+}
+
+.pdf-btn {
+  background: #0d6efd;
+  color: white;
+}
+
+.details-btn {
+  background: #ffc107;
+  color: #111;
+}
+
