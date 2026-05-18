@@ -49,6 +49,62 @@
   </tbody>
 </table>
 
+<hr>
+
+<h3>Mouvements caisse</h3>
+
+<div class="movement-form">
+  <select [(ngModel)]="movementType">
+    <option value="IN">Entrée</option>
+    <option value="OUT">Sortie</option>
+  </select>
+
+  <input
+    type="number"
+    [(ngModel)]="movementAmount"
+    placeholder="Montant"
+  >
+
+  <input
+    type="text"
+    [(ngModel)]="movementReason"
+    placeholder="Raison"
+  >
+
+  <button
+    type="button"
+    class="add-movement-btn"
+    (click)="addCashMovement()">
+    Ajouter
+  </button>
+</div>
+
+<table class="modal-payments-table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Montant</th>
+      <th>Raison</th>
+      <th>Utilisateur</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let movement of cashMovements">
+      <td>{{ movement.type }}</td>
+      <td>{{ movement.amount }} DH</td>
+      <td>{{ movement.reason }}</td>
+      <td>{{ movement.userName }}</td>
+      <td>{{ movement.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+    </tr>
+
+    <tr *ngIf="cashMovements.length === 0">
+      <td colspan="5">Aucun mouvement caisse.</td>
+    </tr>
+  </tbody>
+</table>
+
     <button
       class="close-modal-btn"
       (click)="closeSessionDetails()">

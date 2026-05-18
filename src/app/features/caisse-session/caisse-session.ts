@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ToastService } from '../../core/services/toast.service';
 import { CaisseSessionService } from './caisse-session.service';
-
+import { CashMovementService } from './cash-movement.service';
 @Component({
   selector: 'app-caisse-session',
   standalone: true,
@@ -29,12 +29,19 @@ endDate = '';
 selectedSession: any = null;
 selectedSessionPayments: any[] = [];
 
+cashMovements: any[] = [];
+
+movementAmount = 0;
+movementType = 'IN';
+movementReason = '';
+
 
 
 
   constructor(
     private caisseSessionService: CaisseSessionService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cashMovementService: CashMovementService
   ) {}
 
   ngOnInit(): void {
@@ -186,6 +193,8 @@ getDifferenceClass(difference: number): string {
 openSessionDetails(session: any): void {
   this.selectedSession = session;
   this.selectedSessionPayments = [];
+    this.cashMovements = [];
+
 
   this.caisseSessionService.getSessionPayments(session.id)
     .subscribe({
@@ -196,10 +205,61 @@ openSessionDetails(session: any): void {
         console.error(err);
       }
     });
+      this.loadCashMovements(session.id);
+
 }
 closeSessionDetails(): void {
   this.selectedSession = null;
   this.selectedSessionPayments = [];
+}
+
+loadCashMovements(sessionId: number): void {
+  this.cashMovementService.getBySession(sessionId)
+    .subscribe({
+      next: (movements) => {
+        this.cashMovements = movements;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+}
+
+addCashMovement(): void {
+  if (!this.movementAmount || this.movementAmount <= 0) {
+    this.toastService.error('Montant invalide');
+    return;
+  }
+
+  if (!this.movementReason.trim()) {
+    this.toastService.error('Veuillez saisir une raison');
+    return;
+  }
+
+  this.cashMovementService.addMovement(
+    this.movementAmount,
+    this.movementType,
+    this.movementReason
+  ).subscribe({
+    next: () => {
+      this.toastService.success('Mouvement caisse ajouté');
+
+      this.movementAmount = 0;
+      this.movementType = 'IN';
+      this.movementReason = '';
+
+      if (this.selectedSession) {
+        this.loadCashMovements(this.selectedSession.id);
+      }
+
+      this.loadSessions();
+      this.loadStats();
+    },
+    error: (err) => {
+      console.error(err);
+      this.toastService.error('Erreur ajout mouvement caisse');
+    }
+  });
 }
 
 }

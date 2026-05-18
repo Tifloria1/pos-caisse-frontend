@@ -195,3 +195,35 @@ tbody tr:hover {
   font-size: 14px;
 }
 
+.movement-form {
+  display: grid;
+  grid-template-columns: 120px 120px 1fr 120px;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.movement-form input,
+.movement-form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.add-movement-btn {
+  background: #198754;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.session-modal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-modal-btn {
+  width: 100%;
+  background: #dc3545;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
