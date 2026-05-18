@@ -53,8 +53,9 @@
 
 <h3>Mouvements caisse</h3>
 
-<div class="movement-form">
-  <select [(ngModel)]="movementType">
+<div
+  class="movement-form"
+  *ngIf="selectedSession.status === 'OPEN'">  <select [(ngModel)]="movementType">
     <option value="IN">Entrée</option>
     <option value="OUT">Sortie</option>
   </select>
