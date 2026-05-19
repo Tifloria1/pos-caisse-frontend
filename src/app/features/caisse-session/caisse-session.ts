@@ -275,4 +275,22 @@ validateClose(sessionId: number): void {
     });
 }
 
+getStatusClass(status: string): string {
+  if (status === 'OPEN') {
+    return 'status-open-badge';
+  }
+
+  if (status === 'PENDING_CLOSURE') {
+    return 'status-pending-badge';
+  }
+
+  return 'status-closed-badge';
+}
+
+getPendingClosureSessions(): any[] {
+  return this.sessions.filter(
+    session => session.status === 'PENDING_CLOSURE'
+  );
+}
+
 }

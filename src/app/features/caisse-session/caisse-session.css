@@ -265,3 +265,35 @@ tbody tr:hover {
   color: #111;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status-open-badge {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-pending-badge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-closed-badge {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.pending-alert {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
